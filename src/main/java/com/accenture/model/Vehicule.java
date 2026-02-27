@@ -1,6 +1,5 @@
 package com.accenture.model;
 
-import com.accenture.model.enums.Licence;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,8 +7,6 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,11 +20,8 @@ public abstract class Vehicule {
     protected String brand;
     protected String model;
     protected String color;
-    protected Licence licence;
-    protected float dailyBaseRentalRate;
-    protected float mileage;
-    protected boolean active;
-    protected boolean removedFromTheFleet;
-
-
+//    protected float dailyBaseRentalRate;
+//    protected float mileage;
+//    protected boolean active;
+//    protected boolean removedFromTheFleet;
 }

@@ -1,4 +1,6 @@
 package com.accenture.service;
 
-public record CarRequestDto() {
+public interface AdminService {
+
+
 }

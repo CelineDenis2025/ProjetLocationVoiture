@@ -2,14 +2,14 @@ package com.accenture.model;
 
 import com.accenture.model.enums.CommercialTypes;
 import com.accenture.model.enums.FuelType;
-import com.accenture.model.enums.Licence;
+import com.accenture.model.enums.Licences;
 import com.accenture.model.enums.Transmission;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,7 +25,8 @@ public class Commercial extends Vehicule{
     private float weight;
     private float capacity;
     private CommercialTypes  commercialTypes;
-    private Licence licence;
+    @Enumerated(EnumType.STRING)
+    private Licences licence;
 //    private List<Accessories> accessories;
 
 }
