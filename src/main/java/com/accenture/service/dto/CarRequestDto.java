@@ -10,8 +10,10 @@ public record CarRequestDto(
 
         @NotBlank(message = "vehicule.brand.null")
         String brand,
+
         @NotBlank(message = "vehicule.model.null")
         String model,
+
         @NotBlank(message = "vehicule.color.null")
         String color,
 //        @NotNull(message = "vehicule.dailyBaseRentalRate.null")

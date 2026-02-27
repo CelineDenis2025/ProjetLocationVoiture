@@ -21,10 +21,12 @@ public class Motorcycle extends Vehicule{
     private float weight;
     private float enginePower;
     private float seatHeight;
-    private Transmission transmission;
-    private MotorcycleTypes  motorcycleTypes;
     @Enumerated(EnumType.STRING)
-    private Licences licence;
+    private Transmission transmission;
+    @Enumerated(EnumType.STRING)
+    private MotorcycleTypes  motorcycleTypes;
+//    @Enumerated(EnumType.STRING)
+//    private Licences licence;
 //    private List<Accessories> accessories;
 
 
