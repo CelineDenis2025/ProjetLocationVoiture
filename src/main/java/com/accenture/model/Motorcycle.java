@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class Motorcycle extends Vehicule{
 
     private int nbCylinders;
-    private int engineDisplacement;
+    private float engineDisplacement;
     private float weight;
     private float enginePower;
     private float seatHeight;

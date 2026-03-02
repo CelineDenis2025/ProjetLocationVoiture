@@ -18,15 +18,18 @@ import lombok.NoArgsConstructor;
 public class Commercial extends Vehicule{
 
     private int nbPlaces;
+    @Enumerated(EnumType.STRING)
     private FuelType fuelType;
+    @Enumerated(EnumType.STRING)
     private Transmission transmission;
     private boolean airConditioning;
     private float maximalLoad;
     private float weight;
     private float capacity;
-    private CommercialTypes  commercialTypes;
     @Enumerated(EnumType.STRING)
-    private Licences licence;
+    private CommercialTypes  commercialTypes;
+//    @Enumerated(EnumType.STRING)
+//    private Licences licence;
 //    private List<Accessories> accessories;
 
 }

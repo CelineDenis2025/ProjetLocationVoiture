@@ -3,14 +3,9 @@ package com.accenture.service;
 import com.accenture.exception.CarException;
 import com.accenture.mapper.CarMapper;
 import com.accenture.model.Car;
-import com.accenture.model.enums.*;
 import com.accenture.repository.CarDao;
 import com.accenture.service.dto.CarRequestDto;
 import com.accenture.service.dto.CarResponseDto;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Service;
@@ -51,7 +46,7 @@ public class CarServiceImpl implements CarService {
     public CarResponseDto findById(int id) {
         Optional<Car> carOpt = carDao.findById(id);
         if (carOpt.isEmpty()) {
-            throw new CarException(messages.getMessage("car.id.notfound"));
+            throw new CarException(messages.getMessage("car.id.not.found"));
         }
         return carMapper.toCarResponseDto(carOpt.get());
     }
@@ -60,7 +55,7 @@ public class CarServiceImpl implements CarService {
     public CarResponseDto partiallyUpdateCar(int idCar, CarRequestDto carRequestDto) {
         Optional<Car> carOpt = carDao.findById(idCar);
         if (carOpt.isEmpty()) {
-            throw new CarException(messages.getMessage("car.id.notfound"));
+            throw new CarException(messages.getMessage("car.id.not.found"));
         }
         Car car = carOpt.get();
         if (carRequestDto.brand() != null && !carRequestDto.brand().isBlank()){
@@ -97,7 +92,7 @@ public class CarServiceImpl implements CarService {
     public void deleteCar(int idCar) throws CarException {
         Optional<Car> carOpt = carDao.findById(idCar);
         if (carOpt.isEmpty()) {
-            throw new CarException(messages.getMessage("car.id.notfound"));
+            throw new CarException(messages.getMessage("car.id.not.found"));
         }
         carDao.deleteById(idCar);
     }

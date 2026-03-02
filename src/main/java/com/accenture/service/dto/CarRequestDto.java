@@ -1,7 +1,9 @@
 package com.accenture.service.dto;
 
-import com.accenture.model.enums.*;
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.accenture.model.enums.CarTypes;
+import com.accenture.model.enums.FuelType;
+import com.accenture.model.enums.NbDoors;
+import com.accenture.model.enums.Transmission;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

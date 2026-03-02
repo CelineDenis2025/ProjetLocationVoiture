@@ -42,9 +42,9 @@ public interface CarApi {
     @ApiResponse(responseCode = "404", description = "Car not found",
             content = @Content(schema = @Schema(implementation = ErrorDto.class)))
     @PatchMapping("/{id}")
-    ResponseEntity<CarResponseDto> patchCar(@Parameter(description = "ID of the car", required = true) @PathVariable("id") int idRadio, @RequestBody CarRequestDto requestDto);
+    ResponseEntity<CarResponseDto> patchCar(@Parameter(description = "ID of the car", required = true) @PathVariable("id") int idCar, @RequestBody CarRequestDto requestDto);
 
-    @Operation(summary = "Delete a car by its car")
+    @Operation(summary = "Delete a car by its id")
     @ApiResponse(responseCode = "204", description = "Car deleted")
     @ApiResponse(responseCode = "404", description = "Car not found",
             content = @Content(schema = @Schema(implementation = ErrorDto.class)))

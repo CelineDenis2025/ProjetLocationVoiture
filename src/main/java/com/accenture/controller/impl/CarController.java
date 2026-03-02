@@ -41,8 +41,8 @@ public class CarController implements CarApi {
     }
 
     @Override
-    public ResponseEntity<CarResponseDto> patchCar(int idRadio, CarRequestDto requestDto) {
-        CarResponseDto carResponseDto = carService.partiallyUpdateCar(idRadio, requestDto);
+    public ResponseEntity<CarResponseDto> patchCar(int idCar, CarRequestDto requestDto) {
+        CarResponseDto carResponseDto = carService.partiallyUpdateCar(idCar, requestDto);
         return ResponseEntity.ok(carResponseDto);
     }
 

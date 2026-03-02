@@ -1,11 +1,10 @@
 package com.accenture.service.dto;
 
-import com.accenture.model.enums.CarTypes;
-import com.accenture.model.enums.FuelType;
-import com.accenture.model.enums.NbDoors;
-import com.accenture.model.enums.Transmission;
+import com.accenture.model.enums.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
-public record MotorcycleResponseDto (
+public record MotorcycleResponseDto(
         int id,
 
         String brand,
@@ -16,12 +15,14 @@ public record MotorcycleResponseDto (
 //        boolean active,
 //        boolean removedFromTheFleet,
 
-        int nbPlaces,
-        FuelType fuelType,
-        NbDoors nbDoors,
+        int nbCylinders,
+        float engineDisplacement,
+        float weight,
+        float enginePower,
+        float seatHeight,
         Transmission transmission,
-        Boolean airConditioning,
-        int nbLunggage,
-        CarTypes carTypes
+        MotorcycleTypes motorcycleTypes
 ) {
 }
+
+
