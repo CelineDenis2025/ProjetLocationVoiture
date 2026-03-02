@@ -1,6 +1,6 @@
 package com.accenture.controller.advice;
 
-import com.accenture.exception.CarException;
+import com.accenture.exception.VehiculeException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -28,8 +28,8 @@ public class CarControllerAdvice {
      * Appelée quand une exception métier liée aux cars survient.
      * Renvoie un 400 BAD_REQUEST avec le message métier.
      */
-    @ExceptionHandler(CarException.class)
-    public ResponseEntity<ErrorDto> carException(CardException e) {
+    @ExceptionHandler(VehiculeException.class)
+    public ResponseEntity<ErrorDto> vehiculeException(CardException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto(
                 java.time.LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),

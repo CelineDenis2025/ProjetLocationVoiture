@@ -1,8 +1,7 @@
 package com.accenture.service.dto;
 
-import com.accenture.model.enums.*;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import com.accenture.model.enums.MotorcycleTypes;
+import com.accenture.model.enums.Transmission;
 
 public record MotorcycleResponseDto(
         int id,

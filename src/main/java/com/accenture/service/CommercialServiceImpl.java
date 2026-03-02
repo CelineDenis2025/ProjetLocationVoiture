@@ -1,6 +1,6 @@
 package com.accenture.service;
 
-import com.accenture.exception.CommercialException;
+import com.accenture.exception.VehiculeException;
 import com.accenture.mapper.CommercialMapper;
 import com.accenture.model.Commercial;
 import com.accenture.repository.CommercialDao;
@@ -25,7 +25,7 @@ public class CommercialServiceImpl implements CommercialService {
 
 
     @Override
-    public CommercialResponsedto addCommercial(CommercialRequestDto commercialRequestDto) throws CommercialException {
+    public CommercialResponsedto addCommercial(CommercialRequestDto commercialRequestDto) throws VehiculeException {
         verify(commercialRequestDto);
         Commercial commercial = commercialMapper.toCommercial(commercialRequestDto);
         Commercial saved =  commercialDao.save(commercial);
@@ -47,7 +47,7 @@ public class CommercialServiceImpl implements CommercialService {
     public CommercialResponsedto findById(int id) {
         Optional<Commercial> commercialOpt = commercialDao.findById(id);
         if (commercialOpt.isEmpty()) {
-            throw new CommercialException(messages.getMessage("commercial.id.not.found"));
+            throw new VehiculeException(messages.getMessage("commercial.id.not.found"));
         }
         return commercialMapper.toCommercialResponseDto(commercialOpt.get());
     }
@@ -56,7 +56,7 @@ public class CommercialServiceImpl implements CommercialService {
     public CommercialResponsedto partiallyUpdateCommercial(int idCommercial, CommercialRequestDto commercialRequestDto) {
         Optional<Commercial> commercialOpt = commercialDao.findById(idCommercial);
         if (commercialOpt.isEmpty()) {
-            throw new CommercialException(messages.getMessage("commercial.id.not.found"));
+            throw new VehiculeException(messages.getMessage("commercial.id.not.found"));
         }
         Commercial commercial = commercialOpt.get();
         if (commercialRequestDto.brand() != null && !commercialRequestDto.brand().isBlank()) {
@@ -93,10 +93,10 @@ public class CommercialServiceImpl implements CommercialService {
     }
 
     @Override
-    public void deleteCommercial(int idCommercial) throws CommercialException {
+    public void deleteCommercial(int idCommercial) throws VehiculeException {
         Optional<Commercial>  commercialOpt = commercialDao.findById(idCommercial);
         if (commercialOpt.isEmpty()) {
-            throw new CommercialException(messages.getMessage("commercial.id.not.found"));
+            throw new VehiculeException(messages.getMessage("commercial.id.not.found"));
         }
         commercialDao.deleteById(idCommercial);
     }
@@ -104,31 +104,31 @@ public class CommercialServiceImpl implements CommercialService {
 
     private void verify(CommercialRequestDto commercialRequestDto) {
         if (commercialRequestDto == null) {
-            throw new CommercialException(messages.getMessage("commercial.null"));
+            throw new VehiculeException(messages.getMessage("commercial.null"));
         }
         if (commercialRequestDto.nbPlaces() == null || commercialRequestDto.nbPlaces() < 0) {
-            throw new CommercialException(messages.getMessage("commercial.nbPlaces.null"));
+            throw new VehiculeException(messages.getMessage("commercial.nbPlaces.null"));
         }
         if (commercialRequestDto.fuelType() == null) {
-            throw new CommercialException(messages.getMessage("commercial.fuelType.null"));
+            throw new VehiculeException(messages.getMessage("commercial.fuelType.null"));
         }
         if (commercialRequestDto.transmission() == null) {
-            throw new CommercialException(messages.getMessage("commercial.transmission.null"));
+            throw new VehiculeException(messages.getMessage("commercial.transmission.null"));
         }
         if (commercialRequestDto.airConditioning() ==  null) {
-            throw new CommercialException(messages.getMessage("commercial.airConditioning.null"));
+            throw new VehiculeException(messages.getMessage("commercial.airConditioning.null"));
         }
         if (commercialRequestDto.maximalLoad() == null || commercialRequestDto.maximalLoad() < 0 || commercialRequestDto.maximalLoad().isNaN()) {
-            throw new CommercialException(messages.getMessage("commercial.maximalLoad.null"));
+            throw new VehiculeException(messages.getMessage("commercial.maximalLoad.null"));
         }
         if (commercialRequestDto.weight() == null || commercialRequestDto.weight() < 0 || commercialRequestDto.weight().isNaN()) {
-            throw new CommercialException(messages.getMessage("commercial.weight.null"));
+            throw new VehiculeException(messages.getMessage("commercial.weight.null"));
         }
         if (commercialRequestDto.capacity() == null || commercialRequestDto.capacity() < 0 || commercialRequestDto.capacity().isNaN()) {
-            throw new CommercialException(messages.getMessage("commercial.capacity.null"));
+            throw new VehiculeException(messages.getMessage("commercial.capacity.null"));
         }
         if (commercialRequestDto.commercialTypes() == null) {
-            throw new CommercialException(messages.getMessage("commercial.motorcycleTypes.null"));
+            throw new VehiculeException(messages.getMessage("commercial.motorcycleTypes.null"));
         }
     }
 }

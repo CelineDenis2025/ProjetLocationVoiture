@@ -18,7 +18,9 @@ import lombok.NoArgsConstructor;
 public class Recreational extends Vehicule{
 
     private int nbPlace;
+    @Enumerated(EnumType.STRING)
     private FuelType fuelType;
+    @Enumerated(EnumType.STRING)
     private Transmission transmission;
     private boolean airConditioning;
     private float weight;
@@ -28,9 +30,10 @@ public class Recreational extends Vehicule{
     private boolean providedBedding;
     private boolean refregiratorEquipment;
     private boolean showerEquipment;
-    private RecreationalTypes recreationalTypes;
     @Enumerated(EnumType.STRING)
-    private Licences licence;
+    private RecreationalTypes recreationalTypes;
+//    @Enumerated(EnumType.STRING)
+//    private Licences licence;
 //    private List<Accessories> accessories;
 
 }

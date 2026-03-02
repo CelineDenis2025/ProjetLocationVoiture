@@ -47,7 +47,7 @@ public class MotorcycleController implements MotorcycleApi {
     }
 
     @Override
-    public ResponseEntity<Void> deletedeleteMotorcycleCar(int idMotorcycle) {
+    public ResponseEntity<Void> deleteMotorcycle(int idMotorcycle) {
         motorcycleService.deleteMotorcycle(idMotorcycle);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

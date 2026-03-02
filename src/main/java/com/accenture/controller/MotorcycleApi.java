@@ -1,8 +1,6 @@
 package com.accenture.controller;
 
 import com.accenture.controller.advice.ErrorDto;
-import com.accenture.service.dto.CarRequestDto;
-import com.accenture.service.dto.CarResponseDto;
 import com.accenture.service.dto.MotorcycleRequestDto;
 import com.accenture.service.dto.MotorcycleResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,23 +31,23 @@ public interface MotorcycleApi {
     ResponseEntity<List<MotorcycleResponseDto>> motorcycles();
 
     @Operation(summary = "Get a motorcycle by its id")
-    @ApiResponse(responseCode = "200", description = "motorcycle found")
-    @ApiResponse(responseCode = "404", description = "motorcycle not found",
+    @ApiResponse(responseCode = "200", description = "Motorcycle found")
+    @ApiResponse(responseCode = "404", description = "Motorcycle not found",
             content = @Content(schema = @Schema(implementation = ErrorDto.class)))
     @GetMapping("/{id}")
     ResponseEntity<MotorcycleResponseDto> motorcycle(@Parameter(description = "ID of the motorcycle", required = true) @PathVariable("id") int idMotorcycle);
 
     @Operation(summary = "Partially update a motorcycle")
-    @ApiResponse(responseCode = "200", description = "motorcycle partially updated")
-    @ApiResponse(responseCode = "404", description = "motorcycle not found",
+    @ApiResponse(responseCode = "200", description = "Motorcycle partially updated")
+    @ApiResponse(responseCode = "404", description = "Motorcycle not found",
             content = @Content(schema = @Schema(implementation = ErrorDto.class)))
     @PatchMapping("/{id}")
     ResponseEntity<MotorcycleResponseDto> patchMotorcycle(@Parameter(description = "ID of the motorcycle", required = true) @PathVariable("id") int idMotorcycle, @RequestBody MotorcycleRequestDto motorcycleRequestDto);
 
     @Operation(summary = "Delete a motorcycle by its id")
-    @ApiResponse(responseCode = "204", description = "motorcycle deleted")
-    @ApiResponse(responseCode = "404", description = "motorcycle not found",
+    @ApiResponse(responseCode = "204", description = "Motorcycle deleted")
+    @ApiResponse(responseCode = "404", description = "Motorcycle not found",
             content = @Content(schema = @Schema(implementation = ErrorDto.class)))
     @DeleteMapping("/{id}")
-    ResponseEntity<Void> deletedeleteMotorcycleCar(@Parameter(description = "ID of the motorcycle", required = true) @PathVariable("id") int idMotorcycle);
+    ResponseEntity<Void> deleteMotorcycle(@Parameter(description = "ID of the motorcycle", required = true) @PathVariable("id") int idMotorcycle);
 }
