@@ -16,9 +16,11 @@ import java.util.List;
 @Entity
 public class Bike extends Vehicule{
 
-    private double frameSize;
+    private float frameSize;
     private float weight;
     private boolean electric;
+    private Float batteryCapacity;
+    private Float autonomy;
     private boolean discBrake;
     @Enumerated(EnumType.STRING)
     private BikeTypes bikeTypes;
