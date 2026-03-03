@@ -27,7 +27,6 @@ public class CarServiceImpl implements CarService {
     public CarResponseDto addCar(CarRequestDto carRequestDto) throws VehiculeException {
         verify(carRequestDto);
         Car car = carMapper.toCar(carRequestDto);
-//        car.setLicence(calculateLicence(car.getNbPlaces()));
         Car saved =  carDao.save(car);
         return carMapper.toCarResponseDto(saved);
     }
@@ -104,6 +103,15 @@ public class CarServiceImpl implements CarService {
         if (carRequestDto == null) {
             throw new VehiculeException(messages.getMessage("car.null"));
         }
+        if (carRequestDto.brand() ==  null) {
+            throw new VehiculeException(messages.getMessage("vehicule.brand.null"));
+        }
+        if (carRequestDto.model() ==  null) {
+            throw new VehiculeException(messages.getMessage("vehicule.model.null"));
+        }
+        if (carRequestDto.color() ==  null) {
+            throw new VehiculeException(messages.getMessage("vehicule.color.null"));
+        }
         if (carRequestDto.nbPlaces() == null || carRequestDto.nbPlaces() < 0) {
             throw new VehiculeException(messages.getMessage("car.nbPlaces.null"));
         }
@@ -124,18 +132,6 @@ public class CarServiceImpl implements CarService {
         }
         if (carRequestDto.carTypes() ==  null) {
             throw new VehiculeException(messages.getMessage("car.carTypes.null"));
-        }
-    }
-
-    private String calculateLicence(int nbPlaces) {
-        if (nbPlaces <= 9){
-            return messages.getMessage("car.licence.b");
-        }
-        else if (nbPlaces <= 16){
-            return messages.getMessage("car.licence.d1");
-        }
-        else {
-            return messages.getMessage("car.licence.invalid");
         }
     }
 }

@@ -3,8 +3,6 @@ package com.accenture.service;
 import com.accenture.exception.VehiculeException;
 import com.accenture.mapper.MotorcycleMapper;
 import com.accenture.model.Motorcycle;
-import com.accenture.model.enums.MotorcycleTypes;
-import com.accenture.model.enums.Transmission;
 import com.accenture.repository.MotorcycleDao;
 import com.accenture.service.dto.MotorcycleRequestDto;
 import com.accenture.service.dto.MotorcycleResponseDto;
@@ -110,6 +108,15 @@ public class MotorcycleServiceImpl implements MotorcycleService {
     private void verify(MotorcycleRequestDto motorcycleRequestDto) {
         if (motorcycleRequestDto == null) {
             throw new VehiculeException(messages.getMessage("motorcycle.null"));
+        }
+        if (motorcycleRequestDto.brand() ==  null) {
+            throw new VehiculeException(messages.getMessage("vehicule.brand.null"));
+        }
+        if (motorcycleRequestDto.model() ==  null) {
+            throw new VehiculeException(messages.getMessage("vehicule.model.null"));
+        }
+        if (motorcycleRequestDto.color() ==  null) {
+            throw new VehiculeException(messages.getMessage("vehicule.color.null"));
         }
         if (motorcycleRequestDto.nbCylinders() == null || motorcycleRequestDto.nbCylinders() < 0) {
             throw new VehiculeException(messages.getMessage("motorcyle.nbCylinders.null"));

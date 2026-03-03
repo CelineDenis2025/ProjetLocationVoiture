@@ -118,6 +118,15 @@ public class BikeServiceImpl implements BikeService {
         if (bikeRequestDto == null) {
             throw new VehiculeException(messages.getMessage("bike.null"));
         }
+        if (bikeRequestDto.brand() ==  null) {
+            throw new VehiculeException(messages.getMessage("vehicule.brand.null"));
+        }
+        if (bikeRequestDto.model() ==  null) {
+            throw new VehiculeException(messages.getMessage("vehicule.model.null"));
+        }
+        if (bikeRequestDto.color() ==  null) {
+            throw new VehiculeException(messages.getMessage("vehicule.color.null"));
+        }
         if (bikeRequestDto.frameSize() == null ||  bikeRequestDto.frameSize() < 0 || bikeRequestDto.frameSize().isNaN()) {
             throw new VehiculeException(messages.getMessage("bike.frameSize.null"));
         }

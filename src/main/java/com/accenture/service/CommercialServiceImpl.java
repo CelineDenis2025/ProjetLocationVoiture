@@ -106,6 +106,15 @@ public class CommercialServiceImpl implements CommercialService {
         if (commercialRequestDto == null) {
             throw new VehiculeException(messages.getMessage("commercial.null"));
         }
+        if (commercialRequestDto.brand() ==  null) {
+            throw new VehiculeException(messages.getMessage("vehicule.brand.null"));
+        }
+        if (commercialRequestDto.model() ==  null) {
+            throw new VehiculeException(messages.getMessage("vehicule.model.null"));
+        }
+        if (commercialRequestDto.color() ==  null) {
+            throw new VehiculeException(messages.getMessage("vehicule.color.null"));
+        }
         if (commercialRequestDto.nbPlaces() == null || commercialRequestDto.nbPlaces() < 0) {
             throw new VehiculeException(messages.getMessage("commercial.nbPlaces.null"));
         }

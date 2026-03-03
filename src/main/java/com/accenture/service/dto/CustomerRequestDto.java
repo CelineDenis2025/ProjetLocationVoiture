@@ -24,7 +24,7 @@ public record CustomerRequestDto(
 
         @NotBlank(message = "connectedUser.password.null")
         @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[&#@\\-_§])[A-Za-z\\d&#@\\-_§]{8,16}$",
-                message = "customer.password.invalid")
+                message = "connectedUser.password.invalid")
         String password,
 
         @NotBlank(message = "customer.street.null")
@@ -40,9 +40,9 @@ public record CustomerRequestDto(
         LocalDate dateOfBirth,
 
         @NotNull(message = "customer.licences.null")
-        List<Licenses> licenses,
+        List<Licenses> licenses
 
-        @NotNull(message = "customer.role.null")
-        Role role
+//        @NotNull(message = "customer.role.null")
+//        Role role
         ) {
 }

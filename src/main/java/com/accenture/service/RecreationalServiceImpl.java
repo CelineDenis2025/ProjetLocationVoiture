@@ -119,6 +119,15 @@ public class RecreationalServiceImpl implements RecreationalService {
         if (recreationalRequestDto == null) {
             throw new VehiculeException(messages.getMessage("recreational.null"));
         }
+        if (recreationalRequestDto.brand() ==  null) {
+            throw new VehiculeException(messages.getMessage("vehicule.brand.null"));
+        }
+        if (recreationalRequestDto.model() ==  null) {
+            throw new VehiculeException(messages.getMessage("vehicule.model.null"));
+        }
+        if (recreationalRequestDto.color() ==  null) {
+            throw new VehiculeException(messages.getMessage("vehicule.color.null"));
+        }
         if (recreationalRequestDto.nbPlaces() == null || recreationalRequestDto.nbPlaces() < 0) {
             throw new VehiculeException(messages.getMessage("recreational.nbPlaces.null"));
         }
