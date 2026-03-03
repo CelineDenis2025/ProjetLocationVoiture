@@ -2,7 +2,6 @@ package com.accenture.model;
 
 import com.accenture.model.enums.CommercialTypes;
 import com.accenture.model.enums.FuelType;
-import com.accenture.model.enums.Licences;
 import com.accenture.model.enums.Transmission;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

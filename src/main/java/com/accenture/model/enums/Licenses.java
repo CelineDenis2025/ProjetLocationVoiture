@@ -1,6 +1,6 @@
 package com.accenture.model.enums;
 
-public enum Licences {
+public enum Licenses {
 
     CAR_B,
     CAR_D1,

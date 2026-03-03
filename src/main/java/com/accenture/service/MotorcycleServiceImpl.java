@@ -3,6 +3,8 @@ package com.accenture.service;
 import com.accenture.exception.VehiculeException;
 import com.accenture.mapper.MotorcycleMapper;
 import com.accenture.model.Motorcycle;
+import com.accenture.model.enums.MotorcycleTypes;
+import com.accenture.model.enums.Transmission;
 import com.accenture.repository.MotorcycleDao;
 import com.accenture.service.dto.MotorcycleRequestDto;
 import com.accenture.service.dto.MotorcycleResponseDto;
@@ -132,4 +134,3 @@ public class MotorcycleServiceImpl implements MotorcycleService {
         }
     }
 }
-

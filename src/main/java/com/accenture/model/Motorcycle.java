@@ -1,6 +1,5 @@
 package com.accenture.model;
 
-import com.accenture.model.enums.Licences;
 import com.accenture.model.enums.MotorcycleTypes;
 import com.accenture.model.enums.Transmission;
 import jakarta.persistence.Entity;

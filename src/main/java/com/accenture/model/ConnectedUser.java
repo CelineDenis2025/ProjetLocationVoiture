@@ -18,7 +18,7 @@ public abstract class ConnectedUser {
     private int id;
     private String firstName;
     private String lastName;
+    @Column(unique = true, nullable = false)
     private String email;
     private String password;
-    private Role role;
 }

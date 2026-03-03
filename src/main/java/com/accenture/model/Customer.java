@@ -1,6 +1,8 @@
 package com.accenture.model;
 
-import jakarta.persistence.Entity;
+import com.accenture.model.enums.Licenses;
+import com.accenture.model.enums.Role;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,12 +18,23 @@ import java.util.List;
 @Entity
 public class Customer extends ConnectedUser {
 
-    private String street;
-    private String postalCode;
-    private String city;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
     private LocalDate dateOfBirth;
+
+    @Column(nullable = false, updatable = false)
     private LocalDate registrationDate;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private List<Licenses> licenses;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
     private boolean inactive;
 
-
+    @PrePersist
+    protected void onCreate() {
+        this.registrationDate = LocalDate.now();
+    }
 }
