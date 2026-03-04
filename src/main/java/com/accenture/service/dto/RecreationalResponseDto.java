@@ -8,9 +8,7 @@ public record RecreationalResponseDto(
 
         int id,
 
-        String brand,
-        String model,
-        String color,
+        VehiculeResponseDto vehiculeResponseDto,
 
         int nbPlace,
         FuelType fuelType,

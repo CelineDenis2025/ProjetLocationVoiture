@@ -6,9 +6,7 @@ public record BikeResponseDto(
 
         int id,
 
-        String brand,
-        String model,
-        String color,
+        VehiculeResponseDto vehiculeResponseDto,
 
         float frameSize,
         float weight,

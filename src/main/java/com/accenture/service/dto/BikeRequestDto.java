@@ -7,14 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record BikeRequestDto(
 
-        @NotBlank(message = "vehicule.brand.null")
-        String brand,
-
-        @NotBlank(message = "vehicule.model.null")
-        String model,
-
-        @NotBlank(message = "vehicule.color.null")
-        String color,
+        VehiculeRequestDto vehiculeRequestDto,
 
         @NotNull(message = "bike.frameSize.null")
         @Min(value = 0, message = "bike.frameSize.null")

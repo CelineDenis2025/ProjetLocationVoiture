@@ -57,14 +57,14 @@ public class RecreationalServiceImpl implements RecreationalService {
             throw new VehiculeException(messages.getMessage("recreational.id.not.found"));
         }
         Recreational recreational = recreationalOpt.get();
-        if (recreationalRequestDto.brand() != null && !recreationalRequestDto.brand().isBlank()) {
-            recreational.setBrand(recreationalRequestDto.brand());
+        if (recreationalRequestDto.vehiculeRequestDto().brand() != null && !recreationalRequestDto.vehiculeRequestDto().brand().isBlank()) {
+            recreational.setBrand(recreationalRequestDto.vehiculeRequestDto().brand());
         }
-        if (recreationalRequestDto.model() != null && !recreationalRequestDto.model().isBlank()) {
-            recreational.setModel(recreationalRequestDto.model());
+        if (recreationalRequestDto.vehiculeRequestDto().model() != null && !recreationalRequestDto.vehiculeRequestDto().model().isBlank()) {
+            recreational.setModel(recreationalRequestDto.vehiculeRequestDto().model());
         }
-        if (recreationalRequestDto.color() != null && !recreationalRequestDto.color().isBlank()) {
-            recreational.setColor(recreationalRequestDto.color());
+        if (recreationalRequestDto.vehiculeRequestDto().color() != null && !recreationalRequestDto.vehiculeRequestDto().color().isBlank()) {
+            recreational.setColor(recreationalRequestDto.vehiculeRequestDto().color());
         }
         if (recreationalRequestDto.nbPlaces() != null){
             recreational.setNbPlace(recreationalRequestDto.nbPlaces());
@@ -119,13 +119,13 @@ public class RecreationalServiceImpl implements RecreationalService {
         if (recreationalRequestDto == null) {
             throw new VehiculeException(messages.getMessage("recreational.null"));
         }
-        if (recreationalRequestDto.brand() ==  null) {
+        if (recreationalRequestDto.vehiculeRequestDto().brand() ==  null) {
             throw new VehiculeException(messages.getMessage("vehicule.brand.null"));
         }
-        if (recreationalRequestDto.model() ==  null) {
+        if (recreationalRequestDto.vehiculeRequestDto().model() ==  null) {
             throw new VehiculeException(messages.getMessage("vehicule.model.null"));
         }
-        if (recreationalRequestDto.color() ==  null) {
+        if (recreationalRequestDto.vehiculeRequestDto().color() ==  null) {
             throw new VehiculeException(messages.getMessage("vehicule.color.null"));
         }
         if (recreationalRequestDto.nbPlaces() == null || recreationalRequestDto.nbPlaces() < 0) {

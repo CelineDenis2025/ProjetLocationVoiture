@@ -8,9 +8,7 @@ public record CommercialResponsedto(
 
         int id,
 
-        String brand,
-        String model,
-        String color,
+        VehiculeResponseDto vehiculeResponseDto,
 
         int nbPlaces,
         FuelType fuelType,

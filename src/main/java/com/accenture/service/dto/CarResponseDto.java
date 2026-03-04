@@ -5,9 +5,8 @@ import com.accenture.model.enums.*;
 public record CarResponseDto(
         int id,
 
-        String brand,
-        String model,
-        String color,
+        VehiculeResponseDto vehiculeResponseDto,
+
 //        float dailyBaseRentalRate,
 //        float mileage,
 //        boolean active,
@@ -20,6 +19,6 @@ public record CarResponseDto(
         Boolean airConditioning,
         int nbLunggage,
         CarTypes carTypes
-//        Licences licence
+
 ) {
 }

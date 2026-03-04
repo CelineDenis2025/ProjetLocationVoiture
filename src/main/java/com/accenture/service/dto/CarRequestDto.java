@@ -10,23 +10,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record CarRequestDto(
 
-        @NotBlank(message = "vehicule.brand.null")
-        String brand,
-
-        @NotBlank(message = "vehicule.model.null")
-        String model,
-
-        @NotBlank(message = "vehicule.color.null")
-        String color,
-//        @NotNull(message = "vehicule.dailyBaseRentalRate.null")
-//        Float dailyBaseRentalRate,
-//        @NotNull(message = "vehicule.mileage.null")
-//        Float mileage,
-//        @NotNull(message = "vehicule.active.null")
-//        Boolean active,
-//        @NotNull(message = "vehicule.removedFromTheFleet.null")
-//        Boolean removedFromTheFleet,
-
+        VehiculeRequestDto vehiculeRequestDto,
 
         @NotNull(message = "car.nbPlaces.null")
         @Min(value = 0, message = "car.nbPlaces.null")
@@ -50,8 +34,5 @@ public record CarRequestDto(
 
         @NotNull(message = "car.carType.null")
         CarTypes carTypes
-
-//        @NotNull(message = "car.licence.null")
-//        Licences licence
 ) {
 }

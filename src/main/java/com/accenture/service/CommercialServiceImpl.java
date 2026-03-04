@@ -59,14 +59,14 @@ public class CommercialServiceImpl implements CommercialService {
             throw new VehiculeException(messages.getMessage("commercial.id.not.found"));
         }
         Commercial commercial = commercialOpt.get();
-        if (commercialRequestDto.brand() != null && !commercialRequestDto.brand().isBlank()) {
-            commercial.setBrand(commercialRequestDto.brand());
+        if (commercialRequestDto.vehiculeRequestDto().brand() != null && !commercialRequestDto.vehiculeRequestDto().brand().isBlank()) {
+            commercial.setBrand(commercialRequestDto.vehiculeRequestDto().brand());
         }
-        if (commercialRequestDto.model() != null && !commercialRequestDto.model().isBlank()) {
-            commercial.setModel(commercialRequestDto.model());
+        if (commercialRequestDto.vehiculeRequestDto().model() != null && !commercialRequestDto.vehiculeRequestDto().model().isBlank()) {
+            commercial.setModel(commercialRequestDto.vehiculeRequestDto().model());
         }
-        if (commercialRequestDto.color() != null && !commercialRequestDto.color().isBlank()) {
-            commercial.setColor(commercialRequestDto.color());
+        if (commercialRequestDto.vehiculeRequestDto().color() != null && !commercialRequestDto.vehiculeRequestDto().color().isBlank()) {
+            commercial.setColor(commercialRequestDto.vehiculeRequestDto().color());
         }
         if (commercialRequestDto.nbPlaces() != null) {
             commercial.setNbPlaces(commercialRequestDto.nbPlaces());
@@ -106,13 +106,13 @@ public class CommercialServiceImpl implements CommercialService {
         if (commercialRequestDto == null) {
             throw new VehiculeException(messages.getMessage("commercial.null"));
         }
-        if (commercialRequestDto.brand() ==  null) {
+        if (commercialRequestDto.vehiculeRequestDto().brand() ==  null) {
             throw new VehiculeException(messages.getMessage("vehicule.brand.null"));
         }
-        if (commercialRequestDto.model() ==  null) {
+        if (commercialRequestDto.vehiculeRequestDto().model() ==  null) {
             throw new VehiculeException(messages.getMessage("vehicule.model.null"));
         }
-        if (commercialRequestDto.color() ==  null) {
+        if (commercialRequestDto.vehiculeRequestDto().color() ==  null) {
             throw new VehiculeException(messages.getMessage("vehicule.color.null"));
         }
         if (commercialRequestDto.nbPlaces() == null || commercialRequestDto.nbPlaces() < 0) {

@@ -61,14 +61,14 @@ public class MotorcycleServiceImpl implements MotorcycleService {
             throw new VehiculeException(messages.getMessage("motorcycle.id.not.found"));
         }
         Motorcycle motorcycle = motorcycleOpt.get();
-        if (motorcycleRequestDto.brand() != null && !motorcycleRequestDto.brand().isBlank()) {
-            motorcycle.setBrand(motorcycleRequestDto.brand());
+        if (motorcycleRequestDto.vehiculeRequestDto().brand() != null && !motorcycleRequestDto.vehiculeRequestDto().brand().isBlank()) {
+            motorcycle.setBrand(motorcycleRequestDto.vehiculeRequestDto().brand());
         }
-        if (motorcycleRequestDto.model() != null && !motorcycleRequestDto.model().isBlank()) {
-            motorcycle.setModel(motorcycleRequestDto.model());
+        if (motorcycleRequestDto.vehiculeRequestDto().model() != null && !motorcycleRequestDto.vehiculeRequestDto().model().isBlank()) {
+            motorcycle.setModel(motorcycleRequestDto.vehiculeRequestDto().model());
         }
-        if (motorcycleRequestDto.color() != null && !motorcycleRequestDto.color().isBlank()) {
-            motorcycle.setColor(motorcycleRequestDto.color());
+        if (motorcycleRequestDto.vehiculeRequestDto().color() != null && !motorcycleRequestDto.vehiculeRequestDto().color().isBlank()) {
+            motorcycle.setColor(motorcycleRequestDto.vehiculeRequestDto().color());
         }
         if (motorcycleRequestDto.nbCylinders() != null) {
             motorcycle.setNbCylinders(motorcycleRequestDto.nbCylinders());
@@ -109,13 +109,13 @@ public class MotorcycleServiceImpl implements MotorcycleService {
         if (motorcycleRequestDto == null) {
             throw new VehiculeException(messages.getMessage("motorcycle.null"));
         }
-        if (motorcycleRequestDto.brand() ==  null) {
+        if (motorcycleRequestDto.vehiculeRequestDto().brand() ==  null) {
             throw new VehiculeException(messages.getMessage("vehicule.brand.null"));
         }
-        if (motorcycleRequestDto.model() ==  null) {
+        if (motorcycleRequestDto.vehiculeRequestDto().model() ==  null) {
             throw new VehiculeException(messages.getMessage("vehicule.model.null"));
         }
-        if (motorcycleRequestDto.color() ==  null) {
+        if (motorcycleRequestDto.vehiculeRequestDto().color() ==  null) {
             throw new VehiculeException(messages.getMessage("vehicule.color.null"));
         }
         if (motorcycleRequestDto.nbCylinders() == null || motorcycleRequestDto.nbCylinders() < 0) {

@@ -9,14 +9,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record CommercialRequestDto(
 
-        @NotBlank(message = "vehicule.brand.null")
-        String brand,
-
-        @NotBlank(message = "vehicule.model.null")
-        String model,
-
-        @NotBlank(message = "vehicule.color.null")
-        String color,
+        VehiculeRequestDto vehiculeRequestDto,
 
         @NotNull(message = "commercial.nbPlaces.null")
         @Min(value = 0, message = "commercial.nbPlaces.null")

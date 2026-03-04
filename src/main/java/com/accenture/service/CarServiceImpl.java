@@ -57,14 +57,14 @@ public class CarServiceImpl implements CarService {
             throw new VehiculeException(messages.getMessage("car.id.not.found"));
         }
         Car car = carOpt.get();
-        if (carRequestDto.brand() != null && !carRequestDto.brand().isBlank()){
-            car.setBrand(carRequestDto.brand());
+        if (carRequestDto.vehiculeRequestDto().brand() != null && !carRequestDto.vehiculeRequestDto().brand().isBlank()){
+            car.setBrand(carRequestDto.vehiculeRequestDto().brand());
         }
-        if (carRequestDto.model() != null && !carRequestDto.model().isBlank()){
-            car.setModel(carRequestDto.model());
+        if (carRequestDto.vehiculeRequestDto().model() != null && !carRequestDto.vehiculeRequestDto().model().isBlank()){
+            car.setModel(carRequestDto.vehiculeRequestDto().model());
         }
-        if (carRequestDto.color() != null && !carRequestDto.color().isBlank()){
-            car.setColor(carRequestDto.color());
+        if (carRequestDto.vehiculeRequestDto().color() != null && !carRequestDto.vehiculeRequestDto().color().isBlank()){
+            car.setColor(carRequestDto.vehiculeRequestDto().color());
         }
         if (carRequestDto.nbPlaces() != null){
             car.setNbPlaces(carRequestDto.nbPlaces());
@@ -103,13 +103,13 @@ public class CarServiceImpl implements CarService {
         if (carRequestDto == null) {
             throw new VehiculeException(messages.getMessage("car.null"));
         }
-        if (carRequestDto.brand() ==  null) {
+        if (carRequestDto.vehiculeRequestDto().brand() ==  null) {
             throw new VehiculeException(messages.getMessage("vehicule.brand.null"));
         }
-        if (carRequestDto.model() ==  null) {
+        if (carRequestDto.vehiculeRequestDto().model() ==  null) {
             throw new VehiculeException(messages.getMessage("vehicule.model.null"));
         }
-        if (carRequestDto.color() ==  null) {
+        if (carRequestDto.vehiculeRequestDto().color() ==  null) {
             throw new VehiculeException(messages.getMessage("vehicule.color.null"));
         }
         if (carRequestDto.nbPlaces() == null || carRequestDto.nbPlaces() < 0) {

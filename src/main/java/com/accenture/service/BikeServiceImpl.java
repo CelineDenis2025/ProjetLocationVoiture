@@ -60,14 +60,14 @@ public class BikeServiceImpl implements BikeService {
 
         Bike bike = bikeOptional.get();
 
-        if (bikeRequestDto.brand() != null && !bikeRequestDto.brand().isBlank()) {
-            bike.setBrand(bikeRequestDto.brand());
+        if (bikeRequestDto.vehiculeRequestDto().brand() != null && !bikeRequestDto.vehiculeRequestDto().brand().isBlank()) {
+            bike.setBrand(bikeRequestDto.vehiculeRequestDto().brand());
         }
-        if (bikeRequestDto.model() != null && !bikeRequestDto.model().isBlank()) {
-            bike.setModel(bikeRequestDto.model());
+        if (bikeRequestDto.vehiculeRequestDto().model() != null && !bikeRequestDto.vehiculeRequestDto().model().isBlank()) {
+            bike.setModel(bikeRequestDto.vehiculeRequestDto().model());
         }
-        if (bikeRequestDto.color() != null && !bikeRequestDto.color().isBlank()) {
-            bike.setColor(bikeRequestDto.color());
+        if (bikeRequestDto.vehiculeRequestDto().color() != null && !bikeRequestDto.vehiculeRequestDto().color().isBlank()) {
+            bike.setColor(bikeRequestDto.vehiculeRequestDto().color());
         }
 
         if (bikeRequestDto.frameSize() != null) {
@@ -118,13 +118,13 @@ public class BikeServiceImpl implements BikeService {
         if (bikeRequestDto == null) {
             throw new VehiculeException(messages.getMessage("bike.null"));
         }
-        if (bikeRequestDto.brand() ==  null) {
+        if (bikeRequestDto.vehiculeRequestDto().brand() ==  null) {
             throw new VehiculeException(messages.getMessage("vehicule.brand.null"));
         }
-        if (bikeRequestDto.model() ==  null) {
+        if (bikeRequestDto.vehiculeRequestDto().model() ==  null) {
             throw new VehiculeException(messages.getMessage("vehicule.model.null"));
         }
-        if (bikeRequestDto.color() ==  null) {
+        if (bikeRequestDto.vehiculeRequestDto().color() ==  null) {
             throw new VehiculeException(messages.getMessage("vehicule.color.null"));
         }
         if (bikeRequestDto.frameSize() == null ||  bikeRequestDto.frameSize() < 0 || bikeRequestDto.frameSize().isNaN()) {

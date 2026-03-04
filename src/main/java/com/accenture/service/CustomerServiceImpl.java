@@ -22,6 +22,7 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerDao customerDao;
+
     private final CustomerMapper customerMapper;
     private final MessageSourceAccessor messages;
 //    private final PasswordEncoder passwordEncoder;
@@ -87,6 +88,7 @@ public class CustomerServiceImpl implements CustomerService {
         validateCustomer(idCustomer, email, password);
         customerDao.deleteById(idCustomer);
     }
+
 
 
 

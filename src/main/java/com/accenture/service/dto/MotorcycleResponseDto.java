@@ -6,13 +6,7 @@ import com.accenture.model.enums.Transmission;
 public record MotorcycleResponseDto(
         int id,
 
-        String brand,
-        String model,
-        String color,
-//        float dailyBaseRentalRate,
-//        float mileage,
-//        boolean active,
-//        boolean removedFromTheFleet,
+        VehiculeResponseDto vehiculeResponseDto,
 
         int nbCylinders,
         float engineDisplacement,
