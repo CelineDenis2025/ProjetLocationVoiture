@@ -9,9 +9,8 @@ public record CustomerResponseDto (
 
         int id,
 
-        String firstName,
-        String lastName,
-        String email,
+        ConnectedUserResponseDto connectedUserResponseDto,
+
         String street,
         String postalCode,
         String city,

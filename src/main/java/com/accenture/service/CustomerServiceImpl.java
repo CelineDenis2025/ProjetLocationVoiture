@@ -46,17 +46,17 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponseDto partiallyUpdateCustomer(int idCustomer, String email, String password, CustomerRequestDto customerRequestDto) {
        Customer customer = validateCustomer(idCustomer, email, password);
-        if (customerRequestDto.firstName() != null && !customerRequestDto.firstName().isBlank()){
-           customer.setFirstName(customerRequestDto.firstName());
+        if (customerRequestDto.connectedUserRequestDto().firstName() != null && !customerRequestDto.connectedUserRequestDto().firstName().isBlank()){
+           customer.setFirstName(customerRequestDto.connectedUserRequestDto().firstName());
         }
-        if (customerRequestDto.lastName() != null && !customerRequestDto.lastName().isBlank()){
-            customer.setLastName(customerRequestDto.lastName());
+        if (customerRequestDto.connectedUserRequestDto().lastName() != null && !customerRequestDto.connectedUserRequestDto().lastName().isBlank()){
+            customer.setLastName(customerRequestDto.connectedUserRequestDto().lastName());
         }
-        if (customerRequestDto.email() != null && !customerRequestDto.email().isBlank()){
-            customer.setEmail(customerRequestDto.email());
+        if (customerRequestDto.connectedUserRequestDto().email() != null && !customerRequestDto.connectedUserRequestDto().email().isBlank()){
+            customer.setEmail(customerRequestDto.connectedUserRequestDto().email());
         }
-        if (customerRequestDto.password() != null && !customerRequestDto.password().isBlank()){
-            customer.setPassword(customerRequestDto.password());
+        if (customerRequestDto.connectedUserRequestDto().password() != null && !customerRequestDto.connectedUserRequestDto().password().isBlank()){
+            customer.setPassword(customerRequestDto.connectedUserRequestDto().password());
         }
         if (customerRequestDto.dateOfBirth() != null){
             customer.setDateOfBirth(customerRequestDto.dateOfBirth());
@@ -98,10 +98,10 @@ public class CustomerServiceImpl implements CustomerService {
         if (customerRequestDto == null) {
             throw new ConnectedUserException(messages.getMessage("customer.null"));
         }
-        if (customerRequestDto.firstName() == null || customerRequestDto.firstName().isBlank()) {
+        if (customerRequestDto.connectedUserRequestDto().firstName() == null || customerRequestDto.connectedUserRequestDto().firstName().isBlank()) {
             throw new ConnectedUserException(messages.getMessage("connectedUser.firstname.null"));
         }
-        if (customerRequestDto.lastName() == null || customerRequestDto.lastName().isBlank()) {
+        if (customerRequestDto.connectedUserRequestDto().lastName() == null || customerRequestDto.connectedUserRequestDto().lastName().isBlank()) {
             throw new ConnectedUserException(messages.getMessage("connectedUser.lastname.null"));
         }
         if (customerRequestDto.street() == null || customerRequestDto.street().isBlank()) {
@@ -113,13 +113,13 @@ public class CustomerServiceImpl implements CustomerService {
         if (customerRequestDto.city() == null || customerRequestDto.city().isBlank()) {
             throw new ConnectedUserException(messages.getMessage("customer.city.null"));
         }
-        if (customerRequestDto.email() == null || customerRequestDto.email().isBlank()) {
+        if (customerRequestDto.connectedUserRequestDto().email() == null || customerRequestDto.connectedUserRequestDto().email().isBlank()) {
             throw new ConnectedUserException(messages.getMessage("connectedUser.email.null"));
         }
-        if (!customerRequestDto.email().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+        if (!customerRequestDto.connectedUserRequestDto().email().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
             throw new ConnectedUserException(messages.getMessage("connectedUser.email.invalid"));
         }
-        if (customerDao.existsByEmail(customerRequestDto.email())) {
+        if (customerDao.existsByEmail(customerRequestDto.connectedUserRequestDto().email())) {
             throw new ConnectedUserException(messages.getMessage("connectedUser.email.already.exists"));
         }
         if (customerRequestDto.dateOfBirth() == null) {
@@ -128,10 +128,10 @@ public class CustomerServiceImpl implements CustomerService {
         if (!customerRequestDto.dateOfBirth().isBefore(LocalDate.now())) {
             throw new ConnectedUserException(messages.getMessage("customer.dateOfBirth.past"));
         }
-        if (customerRequestDto.password() == null || customerRequestDto.password().isBlank()) {
+        if (customerRequestDto.connectedUserRequestDto().password() == null || customerRequestDto.connectedUserRequestDto().password().isBlank()) {
             throw new ConnectedUserException(messages.getMessage("connectedUser.password.null"));
         }
-        if (!customerRequestDto.password().matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[&#@\\-_§])[A-Za-z\\d&#@\\-_§]{8,16}$")) {
+        if (!customerRequestDto.connectedUserRequestDto().password().matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[&#@\\-_§])[A-Za-z\\d&#@\\-_§]{8,16}$")) {
             throw new ConnectedUserException(messages.getMessage("connectedUser.password.invalid"));
         }
         if (customerRequestDto.licenses() == null) {

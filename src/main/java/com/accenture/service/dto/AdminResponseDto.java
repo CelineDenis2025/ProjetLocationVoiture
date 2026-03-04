@@ -4,9 +4,8 @@ public record AdminResponseDto(
 
         int id,
 
-        String firstName,
-        String lastName,
-        String email,
+        ConnectedUserResponseDto connectedUserResponseDto,
+
         String function
 ) {
 }

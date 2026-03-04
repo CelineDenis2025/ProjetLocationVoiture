@@ -12,20 +12,7 @@ import java.util.List;
 
 public record CustomerRequestDto(
 
-        @NotBlank(message = "connectedUser.firstName.null")
-        String firstName,
-
-        @NotBlank(message = "connectedUser.lastName.null")
-        String lastName,
-
-        @NotBlank(message = "connectedUser.email.null")
-        @Email(message = "customer.email.invalid")
-        String email,
-
-        @NotBlank(message = "connectedUser.password.null")
-        @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[&#@\\-_§])[A-Za-z\\d&#@\\-_§]{8,16}$",
-                message = "connectedUser.password.invalid")
-        String password,
+        ConnectedUserRequestDto connectedUserRequestDto,
 
         @NotBlank(message = "customer.street.null")
         String street,
@@ -41,8 +28,5 @@ public record CustomerRequestDto(
 
         @NotNull(message = "customer.licences.null")
         List<Licenses> licenses
-
-//        @NotNull(message = "customer.role.null")
-//        Role role
         ) {
 }
