@@ -7,5 +7,8 @@ import com.accenture.service.dto.AdminResponseDto;
 public interface AdminService {
 
     AdminResponseDto addAdmin(AdminRequestDto adminRequestDto) throws ConnectedUserException;
+    AdminResponseDto findById(int id, String email, String password);
+    AdminResponseDto partiallyUpdateAdmin(int idAmin, String email, String password, AdminRequestDto adminRequestDto);
+    void deleteAdmin(int idAmin, String email, String password) throws ConnectedUserException;
 
 }

@@ -2,17 +2,23 @@ package com.accenture.service;
 
 import com.accenture.exception.ConnectedUserException;
 import com.accenture.mapper.AdminMapper;
+import com.accenture.model.Address;
 import com.accenture.model.Admin;
 import com.accenture.model.Customer;
+import com.accenture.model.enums.Role;
 import com.accenture.repository.AdminDao;
 import com.accenture.service.dto.AdminRequestDto;
 import com.accenture.service.dto.AdminResponseDto;
+import com.accenture.service.dto.CustomerRequestDto;
+import com.accenture.service.dto.CustomerResponseDto;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -30,6 +36,40 @@ public class AdminServiceImpl implements AdminService{
         Admin saved = adminDao.save(admin);
         return adminMapper.toAdminResponseDto(saved);
     }
+
+    @Override
+    public AdminResponseDto findById(int id, String email, String password) {
+        Admin admin = validateAdmin(id, email, password);
+        return adminMapper.toAdminResponseDto(admin);
+    }
+
+    @Override
+    public AdminResponseDto partiallyUpdateAdmin(int idAmin, String email, String password, AdminRequestDto adminRequestDto) {
+        Admin admin = validateAdmin(idAmin, email, password);
+        if (adminRequestDto.firstName() != null && !adminRequestDto.firstName().isBlank()){
+            admin.setFirstName(adminRequestDto.firstName());
+        }
+        if (adminRequestDto.lastName() != null && !adminRequestDto.lastName().isBlank()){
+            admin.setLastName(adminRequestDto.lastName());
+        }
+        if (adminRequestDto.email() != null && !adminRequestDto.email().isBlank()){
+            admin.setEmail(adminRequestDto.email());
+        }
+        if (adminRequestDto.password() != null && !adminRequestDto.password().isBlank()){
+            admin.setPassword(adminRequestDto.password());
+        }
+        if (adminRequestDto.function() != null && !adminRequestDto.function().isBlank()){
+            admin.setFunction(adminRequestDto.function());
+        }
+        return adminMapper.toAdminResponseDto(admin);
+    }
+
+    @Override
+    public void deleteAdmin(int idAmin, String email, String password) throws ConnectedUserException {
+        validateAdmin(idAmin, email, password);
+        adminDao.deleteById(idAmin);
+    }
+
 
     private void verify(AdminRequestDto adminRequestDto) {
         if (adminRequestDto == null) {
@@ -59,10 +99,22 @@ public class AdminServiceImpl implements AdminService{
         if (adminRequestDto.function() == null || adminRequestDto.function().isBlank()) {
             throw new ConnectedUserException(messages.getMessage("admin.function.null"));
         }
-//        if (adminRequestDto.role() == null) {
-//            throw new ConnectedUserException(messages.getMessage("admin.role.null"));
-//        }
     }
 
-
+    private Admin validateAdmin(int idAmin, String email, String password) {
+        Optional<Admin> adminOpt = adminDao.findById(idAmin);
+        if (adminOpt.isEmpty()) {
+            throw new ConnectedUserException(messages.getMessage("admin.id.not.found"));
+        }
+        if (adminOpt.get().getRole() != Role.ADMIN) {
+            throw new ConnectedUserException(messages.getMessage("admin.role.not.allowed"));
+        }
+        if (!adminOpt.get().getEmail().equals(email)) {
+            throw new ConnectedUserException(messages.getMessage("connectedUser.email.not.allowed"));
+        }
+        if (!adminOpt.get().getPassword().equals(password)) {
+            throw new ConnectedUserException(messages.getMessage("connectedUser.password.not.allowed"));
+        }
+        return adminOpt.get();
+    }
 }

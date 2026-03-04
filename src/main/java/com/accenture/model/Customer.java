@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
+//@ToString(callSuper = true)
 @Data
 @Entity
 public class Customer extends ConnectedUser {
@@ -27,7 +28,7 @@ public class Customer extends ConnectedUser {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private List<Licenses> licenses;
+    private List<Licenses> licenses = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;

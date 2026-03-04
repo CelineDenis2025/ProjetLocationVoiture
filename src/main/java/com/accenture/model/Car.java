@@ -27,9 +27,4 @@ public class Car extends Vehicule{
     private int nbLunggage;
     @Enumerated(EnumType.STRING)
     private CarTypes carTypes;
-//    @Enumerated(EnumType.STRING)
-//    private Licences licence;
-//    private List<Accessories> accessories;
-
-
 }

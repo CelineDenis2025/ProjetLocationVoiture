@@ -31,8 +31,4 @@ public class Recreational extends Vehicule{
     private boolean showerEquipment;
     @Enumerated(EnumType.STRING)
     private RecreationalTypes recreationalTypes;
-//    @Enumerated(EnumType.STRING)
-//    private Licences licence;
-//    private List<Accessories> accessories;
-
 }

@@ -24,9 +24,4 @@ public class Motorcycle extends Vehicule{
     private Transmission transmission;
     @Enumerated(EnumType.STRING)
     private MotorcycleTypes  motorcycleTypes;
-//    @Enumerated(EnumType.STRING)
-//    private Licences licence;
-//    private List<Accessories> accessories;
-
-
 }

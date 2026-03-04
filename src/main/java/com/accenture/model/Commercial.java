@@ -27,8 +27,4 @@ public class Commercial extends Vehicule{
     private float capacity;
     @Enumerated(EnumType.STRING)
     private CommercialTypes  commercialTypes;
-//    @Enumerated(EnumType.STRING)
-//    private Licences licence;
-//    private List<Accessories> accessories;
-
 }

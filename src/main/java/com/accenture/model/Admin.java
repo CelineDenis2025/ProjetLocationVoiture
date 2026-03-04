@@ -11,7 +11,6 @@ import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
 @Data
 @Entity
 public class Admin extends ConnectedUser {

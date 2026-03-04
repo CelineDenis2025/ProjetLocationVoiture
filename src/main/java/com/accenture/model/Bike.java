@@ -24,8 +24,4 @@ public class Bike extends Vehicule{
     private boolean discBrake;
     @Enumerated(EnumType.STRING)
     private BikeTypes bikeTypes;
-//    private List<Accessories> accessories;
-
-
-
 }
