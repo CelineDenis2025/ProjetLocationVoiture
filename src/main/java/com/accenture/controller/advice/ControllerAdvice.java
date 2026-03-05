@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.smartcardio.CardException;
 
 @RestControllerAdvice
-public class CarControllerAdvice {
+public class ControllerAdvice {
 
     private final MessageSource messageSource;
 
-    public CarControllerAdvice(MessageSource messageSource) {
+    public ControllerAdvice(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
 

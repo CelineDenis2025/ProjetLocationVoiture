@@ -2,10 +2,12 @@ package com.accenture.service;
 
 import com.accenture.exception.VehiculeException;
 import com.accenture.mapper.MotorcycleMapper;
+import com.accenture.model.Commercial;
 import com.accenture.model.Motorcycle;
 import com.accenture.repository.MotorcycleDao;
 import com.accenture.service.dto.MotorcycleRequestDto;
 import com.accenture.service.dto.MotorcycleResponseDto;
+import com.accenture.utils.Messages;
 import lombok.AllArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Service;
@@ -46,21 +48,15 @@ public class MotorcycleServiceImpl implements MotorcycleService {
     @Transactional(readOnly = true)
     @Override
     public MotorcycleResponseDto findById(int id) {
-        Optional<Motorcycle> motorcycleOpt = motorcycleDao.findById(id);
-        if (motorcycleOpt.isEmpty()) {
-            throw new VehiculeException(messages.getMessage("motorcyle.id.not.found"));
-        }
-        return motorcycleMapper.toMotorcycleResponseDto(motorcycleOpt.get());
+        Motorcycle motorcycle = validateMotorcycle(id);
+        return motorcycleMapper.toMotorcycleResponseDto(motorcycle);
     }
 
 
     @Override
     public MotorcycleResponseDto partiallyUpdateMotorcycle(int idMotorcycle, MotorcycleRequestDto motorcycleRequestDto) {
-        Optional<Motorcycle> motorcycleOpt = motorcycleDao.findById(idMotorcycle);
-        if (motorcycleOpt.isEmpty()) {
-            throw new VehiculeException(messages.getMessage("motorcycle.id.not.found"));
-        }
-        Motorcycle motorcycle = motorcycleOpt.get();
+        Motorcycle motorcycle = validateMotorcycle(idMotorcycle);
+
         if (motorcycleRequestDto.vehiculeRequestDto().brand() != null && !motorcycleRequestDto.vehiculeRequestDto().brand().isBlank()) {
             motorcycle.setBrand(motorcycleRequestDto.vehiculeRequestDto().brand());
         }
@@ -97,47 +93,53 @@ public class MotorcycleServiceImpl implements MotorcycleService {
 
     @Override
     public void deleteMotorcycle(int idMotorcycle) throws VehiculeException {
-        Optional<Motorcycle> motorcycleOpt = motorcycleDao.findById(idMotorcycle);
-        if (motorcycleOpt.isEmpty()) {
-            throw new VehiculeException(messages.getMessage("motorcycle.id.not.found"));
-        }
+        validateMotorcycle(idMotorcycle);
         motorcycleDao.deleteById(idMotorcycle);
     }
 
 
     private void verify(MotorcycleRequestDto motorcycleRequestDto) {
         if (motorcycleRequestDto == null) {
-            throw new VehiculeException(messages.getMessage("motorcycle.null"));
+            throw new VehiculeException(messages.getMessage(Messages.MOTORCYCLE_NULL));
         }
-        if (motorcycleRequestDto.vehiculeRequestDto().brand() ==  null) {
-            throw new VehiculeException(messages.getMessage("vehicule.brand.null"));
+        if (motorcycleRequestDto.vehiculeRequestDto().brand() == null) {
+            throw new VehiculeException(messages.getMessage(Messages.VEHICULE_BRAND_NULL));
         }
-        if (motorcycleRequestDto.vehiculeRequestDto().model() ==  null) {
-            throw new VehiculeException(messages.getMessage("vehicule.model.null"));
+        if (motorcycleRequestDto.vehiculeRequestDto().model() == null) {
+            throw new VehiculeException(messages.getMessage(Messages.VEHICULE_MODEL_NULL));
         }
-        if (motorcycleRequestDto.vehiculeRequestDto().color() ==  null) {
-            throw new VehiculeException(messages.getMessage("vehicule.color.null"));
+        if (motorcycleRequestDto.vehiculeRequestDto().color() == null) {
+            throw new VehiculeException(messages.getMessage(Messages.VEHICULE_COLOR_NULL));
         }
         if (motorcycleRequestDto.nbCylinders() == null || motorcycleRequestDto.nbCylinders() < 0) {
-            throw new VehiculeException(messages.getMessage("motorcyle.nbCylinders.null"));
+            throw new VehiculeException(messages.getMessage(Messages.MOTORCYCLE_NB_CYLINDERS_NULL));
         }
-        if (motorcycleRequestDto.engineDisplacement() == null || motorcycleRequestDto.engineDisplacement() < 0 ||motorcycleRequestDto.engineDisplacement().isNaN()) {
-            throw new VehiculeException(messages.getMessage("motorcyle.engineDisplacement.null"));
+        if (motorcycleRequestDto.engineDisplacement() == null || motorcycleRequestDto.engineDisplacement() < 0 || motorcycleRequestDto.engineDisplacement().isNaN()) {
+            throw new VehiculeException(messages.getMessage(Messages.MOTORCYCLE_ENGINE_DISPLACEMENT_NULL));
         }
         if (motorcycleRequestDto.weight() == null || motorcycleRequestDto.weight() < 0 || motorcycleRequestDto.weight().isNaN()) {
-            throw new VehiculeException(messages.getMessage("motorcyle.weight.null"));
+            throw new VehiculeException(messages.getMessage(Messages.MOTORCYCLE_WEIGHT_NULL));
         }
         if (motorcycleRequestDto.enginePower() == null || motorcycleRequestDto.enginePower() < 0 || motorcycleRequestDto.enginePower().isNaN()) {
-            throw new VehiculeException(messages.getMessage("motorcyle.enginePower.null"));
+            throw new VehiculeException(messages.getMessage(Messages.MOTORCYCLE_ENGINE_POWER_NULL));
         }
         if (motorcycleRequestDto.seatHeight() == null || motorcycleRequestDto.seatHeight() < 0 || motorcycleRequestDto.seatHeight().isNaN()) {
-            throw new VehiculeException(messages.getMessage("motorcyle.seatHeight.null"));
+            throw new VehiculeException(messages.getMessage(Messages.MOTORCYCLE_SEAT_HEIGHT_NULL));
         }
         if (motorcycleRequestDto.transmission() == null) {
-            throw new VehiculeException(messages.getMessage("motorcyle.transmission.null"));
+            throw new VehiculeException(messages.getMessage(Messages.MOTORCYCLE_TRANSMISSION_NULL));
         }
         if (motorcycleRequestDto.motorcycleTypes() == null) {
-            throw new VehiculeException(messages.getMessage("motorcyle.motorcycleTypes.null"));
+            throw new VehiculeException(messages.getMessage(Messages.MOTORCYCLE_TYPE_NULL));
         }
+    }
+
+
+    private Motorcycle validateMotorcycle(int idMotorcycle) {
+        Optional<Motorcycle> motorcycleOpt = motorcycleDao.findById(idMotorcycle);
+        if (motorcycleOpt.isEmpty()) {
+            throw new VehiculeException(messages.getMessage(Messages.MOTORCYCLE_ID_NOT_FOUND));
+        }
+        return motorcycleOpt.get();
     }
 }

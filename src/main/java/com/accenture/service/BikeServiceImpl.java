@@ -1,11 +1,15 @@
 package com.accenture.service;
 
+import com.accenture.exception.ConnectedUserException;
 import com.accenture.exception.VehiculeException;
 import com.accenture.mapper.BikeMapper;
+import com.accenture.model.Admin;
 import com.accenture.model.Bike;
+import com.accenture.model.enums.Role;
 import com.accenture.repository.BikeDao;
 import com.accenture.service.dto.BikeRequestDto;
 import com.accenture.service.dto.BikeResponseDto;
+import com.accenture.utils.Messages;
 import lombok.AllArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Service;
@@ -27,8 +31,8 @@ public class BikeServiceImpl implements BikeService {
     public BikeResponseDto addBike(BikeRequestDto bikeRequestDto) throws VehiculeException {
         verify(bikeRequestDto);
         Bike bike = bikeMapper.toBike(bikeRequestDto);
-        Bike Saved = bikeDao.save(bike);
-        return bikeMapper.toBikeResponseDto(Saved);
+        Bike saved = bikeDao.save(bike);
+        return bikeMapper.toBikeResponseDto(saved);
     }
 
     @Transactional(readOnly = true)
@@ -43,22 +47,14 @@ public class BikeServiceImpl implements BikeService {
     @Transactional(readOnly = true)
     @Override
     public BikeResponseDto findById(int id) {
-        Optional<Bike> bikeOptional = bikeDao.findById(id);
-        if (bikeOptional.isEmpty()) {
-            throw new VehiculeException(messages.getMessage("bike.id.not.found"));
-        }
-        return bikeMapper.toBikeResponseDto(bikeOptional.get());
+        Bike bike = validateBike(id);
+        return bikeMapper.toBikeResponseDto(bike);
     }
 
 
     @Override
     public BikeResponseDto partiallyUpdateBike(int idBike, BikeRequestDto bikeRequestDto) {
-        Optional<Bike> bikeOptional = bikeDao.findById(idBike);
-        if (bikeOptional.isEmpty()) {
-            throw new VehiculeException(messages.getMessage("bike.id.not.found"));
-        }
-
-        Bike bike = bikeOptional.get();
+        Bike bike = validateBike(idBike);
 
         if (bikeRequestDto.vehiculeRequestDto().brand() != null && !bikeRequestDto.vehiculeRequestDto().brand().isBlank()) {
             bike.setBrand(bikeRequestDto.vehiculeRequestDto().brand());
@@ -106,51 +102,57 @@ public class BikeServiceImpl implements BikeService {
 
     @Override
     public void deleteBike(int idBike) throws VehiculeException {
-        Optional<Bike> bikeOptional = bikeDao.findById(idBike);
-        if (bikeOptional.isEmpty()) {
-            throw new VehiculeException(messages.getMessage("bike.id.not.found"));
-        }
+        validateBike(idBike);
         bikeDao.deleteById(idBike);
     }
 
 
     private void verify(BikeRequestDto bikeRequestDto) {
         if (bikeRequestDto == null) {
-            throw new VehiculeException(messages.getMessage("bike.null"));
+            throw new VehiculeException(messages.getMessage(Messages.BIKE_NULL));
         }
-        if (bikeRequestDto.vehiculeRequestDto().brand() ==  null) {
-            throw new VehiculeException(messages.getMessage("vehicule.brand.null"));
+        if (bikeRequestDto.vehiculeRequestDto().brand() == null) {
+            throw new VehiculeException(messages.getMessage(Messages.VEHICULE_BRAND_NULL));
         }
-        if (bikeRequestDto.vehiculeRequestDto().model() ==  null) {
-            throw new VehiculeException(messages.getMessage("vehicule.model.null"));
+        if (bikeRequestDto.vehiculeRequestDto().model() == null) {
+            throw new VehiculeException(messages.getMessage(Messages.VEHICULE_MODEL_NULL));
         }
-        if (bikeRequestDto.vehiculeRequestDto().color() ==  null) {
-            throw new VehiculeException(messages.getMessage("vehicule.color.null"));
+        if (bikeRequestDto.vehiculeRequestDto().color() == null) {
+            throw new VehiculeException(messages.getMessage(Messages.VEHICULE_COLOR_NULL));
         }
-        if (bikeRequestDto.frameSize() == null ||  bikeRequestDto.frameSize() < 0 || bikeRequestDto.frameSize().isNaN()) {
-            throw new VehiculeException(messages.getMessage("bike.frameSize.null"));
+        if (bikeRequestDto.frameSize() == null || bikeRequestDto.frameSize() < 0 || bikeRequestDto.frameSize().isNaN()) {
+            throw new VehiculeException(messages.getMessage(Messages.BIKE_FRAMESIZE_NULL));
         }
-        if (bikeRequestDto.weight() == null ||  bikeRequestDto.weight() < 0 || bikeRequestDto.weight().isNaN()) {
-            throw new VehiculeException(messages.getMessage("bike.weight.null"));
+        if (bikeRequestDto.weight() == null || bikeRequestDto.weight() < 0 || bikeRequestDto.weight().isNaN()) {
+            throw new VehiculeException(messages.getMessage(Messages.BIKE_WEIGHT_NULL));
         }
         if (bikeRequestDto.electric()) {
-            if(bikeRequestDto.batteryCapacity() == null || bikeRequestDto.batteryCapacity() < 0 || bikeRequestDto.batteryCapacity().isNaN()) {
-                throw new VehiculeException(messages.getMessage("bike.battery.capacity.null"));
+            if (bikeRequestDto.batteryCapacity() == null || bikeRequestDto.batteryCapacity() < 0 || bikeRequestDto.batteryCapacity().isNaN()) {
+                throw new VehiculeException(messages.getMessage(Messages.BIKE_BATTERY_CAPACITY_NULL));
             }
-            if (bikeRequestDto.autonomy() == null || bikeRequestDto.autonomy() < 0 ||  bikeRequestDto.autonomy().isNaN()) {
-                throw new VehiculeException(messages.getMessage("bike.autonomy.null"));
+            if (bikeRequestDto.autonomy() == null || bikeRequestDto.autonomy() < 0 || bikeRequestDto.autonomy().isNaN()) {
+                throw new VehiculeException(messages.getMessage(Messages.BIKE_AUTONOMY_NULL));
             }
         } else {
 
             if (bikeRequestDto.batteryCapacity() != null || bikeRequestDto.autonomy() != null) {
-                throw new VehiculeException(messages.getMessage("bike.electric.fields.not.allowed"));
+                throw new VehiculeException(messages.getMessage(Messages.BIKE_ELECTRIC_FIELDS_NOT_ALLOWED));
             }
         }
         if (bikeRequestDto.discBrake() == null) {
-            throw new VehiculeException(messages.getMessage("bike.discBrake.null"));
+            throw new VehiculeException(messages.getMessage(Messages.BIKE_DISCBRAKE_NULL));
         }
         if (bikeRequestDto.bikeTypes() == null) {
-            throw new VehiculeException(messages.getMessage("bike.bikeType.null"));
+            throw new VehiculeException(messages.getMessage(Messages.BIKE_TYPE_NULL));
         }
+    }
+
+
+    private Bike validateBike(int idBike) {
+        Optional<Bike> bikeOptional = bikeDao.findById(idBike);
+        if (bikeOptional.isEmpty()) {
+            throw new VehiculeException(messages.getMessage(Messages.BIKE_ID_NOT_FOUND));
+        }
+        return bikeOptional.get();
     }
 }

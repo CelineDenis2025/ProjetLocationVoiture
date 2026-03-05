@@ -2,6 +2,7 @@ package com.accenture.service.dto;
 
 import com.accenture.model.enums.Licenses;
 import com.accenture.model.enums.Role;
+import com.accenture.utils.Messages;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,19 +15,19 @@ public record CustomerRequestDto(
 
         ConnectedUserRequestDto connectedUserRequestDto,
 
-        @NotBlank(message = "customer.street.null")
+        @NotBlank(message = Messages.CUSTOMER_STREET_NULL)
         String street,
 
-        @NotBlank(message = "customer.postalCode.null")
+        @NotBlank(message = Messages.CUSTOMER_POSTAL_CODE_NULL)
         String postalCode,
 
-        @NotBlank(message = "customer.city.null")
+        @NotBlank(message = Messages.CUSTOMER_CITY_NULL)
         String city,
 
-        @NotNull(message = "customer.dateOfBirth.null")
+        @NotNull(message = Messages.CUSTOMER_DATE_OF_BIRTH_NULL)
         LocalDate dateOfBirth,
 
-        @NotNull(message = "customer.licences.null")
+        @NotNull(message = Messages.CUSTOMER_LICENSES_NULL)
         List<Licenses> licenses
         ) {
 }

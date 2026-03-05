@@ -1,16 +1,17 @@
 package com.accenture.service.dto;
 
+import com.accenture.utils.Messages;
 import jakarta.validation.constraints.NotBlank;
 
 public record VehiculeRequestDto(
 
-        @NotBlank(message = "vehicule.brand.null")
+        @NotBlank(message = Messages.VEHICULE_BRAND_NULL)
         String brand,
 
-        @NotBlank(message = "vehicule.model.null")
+        @NotBlank(message = Messages.VEHICULE_BRAND_NULL)
         String model,
 
-        @NotBlank(message = "vehicule.color.null")
+        @NotBlank(message = Messages.VEHICULE_BRAND_NULL)
         String color
 ) {
 }

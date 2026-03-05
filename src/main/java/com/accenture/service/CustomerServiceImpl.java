@@ -8,12 +8,16 @@ import com.accenture.model.enums.Role;
 import com.accenture.repository.CustomerDao;
 import com.accenture.service.dto.CustomerRequestDto;
 import com.accenture.service.dto.CustomerResponseDto;
+import com.accenture.service.dto.VehiculeResponseDto;
+import com.accenture.utils.Messages;
 import lombok.AllArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,16 +26,15 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerDao customerDao;
-
     private final CustomerMapper customerMapper;
     private final MessageSourceAccessor messages;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public CustomerResponseDto addCustomer(CustomerRequestDto customerRequestDto) throws ConnectedUserException {
         verify(customerRequestDto);
         Customer customer = customerMapper.toCustomer(customerRequestDto);
-//        customer.setPassword(passwordEncoder.encode(customerRequestDto.password()));
+        customer.setPassword(passwordEncoder.encode(customerRequestDto.connectedUserRequestDto().password()));
         Customer saved = customerDao.save(customer);
         return customerMapper.toCustomerResponseDto(saved);
     }
@@ -91,51 +94,59 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 
+    @Override
+    public List<VehiculeResponseDto> FindAllVehicules() {
+        return List.of();
+    }
+
 
 
 
     private void verify(CustomerRequestDto customerRequestDto) {
         if (customerRequestDto == null) {
-            throw new ConnectedUserException(messages.getMessage("customer.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CUSTOMER_NULL));
         }
         if (customerRequestDto.connectedUserRequestDto().firstName() == null || customerRequestDto.connectedUserRequestDto().firstName().isBlank()) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.firstname.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_FIRSTNAME_NULL));
         }
         if (customerRequestDto.connectedUserRequestDto().lastName() == null || customerRequestDto.connectedUserRequestDto().lastName().isBlank()) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.lastname.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_LASTNAME_NULL));
         }
         if (customerRequestDto.street() == null || customerRequestDto.street().isBlank()) {
-            throw new ConnectedUserException(messages.getMessage("customer.street.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CUSTOMER_STREET_NULL));
         }
         if (customerRequestDto.postalCode() == null || customerRequestDto.postalCode().isBlank()) {
-            throw new ConnectedUserException(messages.getMessage("customer.postalCode.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CUSTOMER_POSTAL_CODE_NULL));
         }
         if (customerRequestDto.city() == null || customerRequestDto.city().isBlank()) {
-            throw new ConnectedUserException(messages.getMessage("customer.city.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CUSTOMER_CITY_NULL));
         }
         if (customerRequestDto.connectedUserRequestDto().email() == null || customerRequestDto.connectedUserRequestDto().email().isBlank()) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.email.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_EMAIL_NULL));
         }
         if (!customerRequestDto.connectedUserRequestDto().email().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.email.invalid"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_EMAIL_INVALID));
         }
         if (customerDao.existsByEmail(customerRequestDto.connectedUserRequestDto().email())) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.email.already.exists"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_EMAIL_ALREADY_EXIST));
         }
         if (customerRequestDto.dateOfBirth() == null) {
-            throw new ConnectedUserException(messages.getMessage("customer.dateOfBirth.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CUSTOMER_DATE_OF_BIRTH_NULL));
         }
         if (!customerRequestDto.dateOfBirth().isBefore(LocalDate.now())) {
-            throw new ConnectedUserException(messages.getMessage("customer.dateOfBirth.past"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CUSTOMER_DATE_OF_BIRTH_PAST));
+        }
+        if (customerRequestDto.dateOfBirth().isAfter(LocalDate.now().minusYears(18)) || customerRequestDto.dateOfBirth().isBefore(LocalDate.now().minusYears(120))) {
+            throw new ConnectedUserException(messages.getMessage(Messages.CUSTOMER_DATE_OF_BIRTH_INVALID));
         }
         if (customerRequestDto.connectedUserRequestDto().password() == null || customerRequestDto.connectedUserRequestDto().password().isBlank()) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.password.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_PASSWORD_NULL));
         }
         if (!customerRequestDto.connectedUserRequestDto().password().matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[&#@\\-_§])[A-Za-z\\d&#@\\-_§]{8,16}$")) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.password.invalid"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_PASSWORD_INVALID));
         }
         if (customerRequestDto.licenses() == null) {
-            throw new ConnectedUserException(messages.getMessage("customer.licenses.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CUSTOMER_LICENSES_NULL));
         }
     }
 
@@ -143,16 +154,16 @@ public class CustomerServiceImpl implements CustomerService {
     private Customer validateCustomer(int idCustomer, String email, String password) {
         Optional<Customer> customerOpt = customerDao.findById(idCustomer);
         if (customerOpt.isEmpty()) {
-            throw new ConnectedUserException(messages.getMessage("customer.id.not.found"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CUSTOMER_ID_NOT_FOUND));
         }
         if (customerOpt.get().getRole() != Role.USER) {
-            throw new ConnectedUserException(messages.getMessage("customer.role.not.allowed"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CUSTOMER_ROLE_NOT_ALLOWED));
         }
         if (!customerOpt.get().getEmail().equals(email)) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.email.not.allowed"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_EMAIL_NOT_ALLOWED));
         }
-        if (!customerOpt.get().getPassword().equals(password)) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.password.not.allowed"));
+        if (!passwordEncoder.matches(password, customerOpt.get().getPassword())) {
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_PASSWORD_NOT_ALLOWED));
         }
         return customerOpt.get();
     }

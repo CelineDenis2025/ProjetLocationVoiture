@@ -24,7 +24,7 @@ public class Car extends Vehicule{
     @Enumerated(EnumType.STRING)
     private Transmission transmission;
     private boolean airConditioning;
-    private int nbLunggage;
+    private int nbLuggage;
     @Enumerated(EnumType.STRING)
     private CarTypes carTypes;
 }

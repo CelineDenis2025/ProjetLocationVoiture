@@ -2,6 +2,7 @@ package com.accenture.service.dto;
 
 import com.accenture.model.enums.MotorcycleTypes;
 import com.accenture.model.enums.Transmission;
+import com.accenture.utils.Messages;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,30 +11,30 @@ public record MotorcycleRequestDto(
 
         VehiculeRequestDto vehiculeRequestDto,
 
-        @NotNull(message = "motorcyle.nbCylinders.null")
-        @Min(value = 0, message = "motorcyle.nbCylinders.null")
+        @NotNull(message = Messages.MOTORCYCLE_NB_CYLINDERS_NULL)
+        @Min(value = 0, message = Messages.MOTORCYCLE_NB_CYLINDERS_NULL)
         Integer nbCylinders,
 
-        @NotNull(message = "motorcyle.engineDisplacement.null")
-        @Min(value = 0, message = "motorcyle.engineDisplacement.null")
+        @NotNull(message = Messages.MOTORCYCLE_ENGINE_DISPLACEMENT_NULL)
+        @Min(value = 0, message = Messages.MOTORCYCLE_ENGINE_DISPLACEMENT_NULL)
         Float engineDisplacement,
 
-        @NotNull(message = "motorcyle.weight.null")
-        @Min(value = 0, message = "motorcyle.weight.null")
+        @NotNull(message = Messages.MOTORCYCLE_WEIGHT_NULL)
+        @Min(value = 0, message = Messages.MOTORCYCLE_WEIGHT_NULL)
         Float weight,
 
-        @NotNull(message = "motorcyle.enginePower.null")
-        @Min(value = 0, message = "motorcyle.enginePower.null")
+        @NotNull(message = Messages.MOTORCYCLE_ENGINE_POWER_NULL)
+        @Min(value = 0, message = Messages.MOTORCYCLE_ENGINE_POWER_NULL)
         Float enginePower,
 
-        @NotNull(message = "motorcyle.seatHeight.null")
-        @Min(value = 0, message = "motorcyle.seatHeight.null")
+        @NotNull(message = Messages.MOTORCYCLE_SEAT_HEIGHT_NULL)
+        @Min(value = 0, message = Messages.MOTORCYCLE_SEAT_HEIGHT_NULL)
         Float seatHeight,
 
-        @NotNull(message = "motorcyle.transmission.null")
+        @NotNull(message = Messages.MOTORCYCLE_TRANSMISSION_NULL)
         Transmission transmission,
 
-        @NotNull(message = "motorcyle.motorcycleTypes.null")
+        @NotNull(message = Messages.MOTORCYCLE_TYPE_NULL)
         MotorcycleTypes motorcycleTypes
 ) {
 }

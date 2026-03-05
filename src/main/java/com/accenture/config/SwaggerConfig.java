@@ -24,7 +24,7 @@ public class SwaggerConfig {
                 .in("header")
                 .name("Accept-Language")
                 .required(false)
-                .description("Locale de réponse (ex: fr-FR, en-US, es-ES)")
+                .description("Locale de réponse (ex: fr-FR, en-US)")
                 .schema(new StringSchema()
                         ._default("fr-FR")
                         ._enum(java.util.List.of("fr-FR","en-US"))

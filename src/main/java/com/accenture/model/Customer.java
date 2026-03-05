@@ -14,13 +14,13 @@ import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString(callSuper = true)
 @Data
 @Entity
 public class Customer extends ConnectedUser {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
+
     private LocalDate dateOfBirth;
 
     @Column(nullable = false, updatable = false)
@@ -32,6 +32,7 @@ public class Customer extends ConnectedUser {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
     private boolean inactive;
 
     @PrePersist

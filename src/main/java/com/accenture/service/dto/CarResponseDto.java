@@ -17,7 +17,7 @@ public record CarResponseDto(
         NbDoors nbDoors,
         Transmission transmission,
         Boolean airConditioning,
-        int nbLunggage,
+        int nbLuggage,
         CarTypes carTypes
 
 ) {

@@ -7,8 +7,10 @@ import com.accenture.model.enums.Role;
 import com.accenture.repository.AdminDao;
 import com.accenture.service.dto.AdminRequestDto;
 import com.accenture.service.dto.AdminResponseDto;
+import com.accenture.utils.Messages;
 import lombok.AllArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,11 +24,13 @@ public class AdminServiceImpl implements AdminService{
     private final AdminDao adminDao;
     private final MessageSourceAccessor messages;
     private final AdminMapper adminMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public AdminResponseDto addAdmin(AdminRequestDto adminRequestDto) throws ConnectedUserException {
         verify(adminRequestDto);
         Admin admin = adminMapper.toAdmin(adminRequestDto);
+        admin.setPassword(passwordEncoder.encode(adminRequestDto.connectedUserRequestDto().password()));
         Admin saved = adminDao.save(admin);
         return adminMapper.toAdminResponseDto(saved);
     }
@@ -67,47 +71,48 @@ public class AdminServiceImpl implements AdminService{
 
     private void verify(AdminRequestDto adminRequestDto) {
         if (adminRequestDto == null) {
-            throw new ConnectedUserException(messages.getMessage("admin.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.ADMIN_NULL));
         }
         if (adminRequestDto.connectedUserRequestDto().firstName() == null || adminRequestDto.connectedUserRequestDto().firstName().isBlank()) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.firstname.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_FIRSTNAME_NULL));
         }
         if (adminRequestDto.connectedUserRequestDto().lastName() == null || adminRequestDto.connectedUserRequestDto().lastName().isBlank()) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.lastname.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_LASTNAME_NULL));
         }
         if (adminRequestDto.connectedUserRequestDto().email() == null || adminRequestDto.connectedUserRequestDto().email().isBlank()) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.email.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_EMAIL_NULL));
         }
         if (!adminRequestDto.connectedUserRequestDto().email().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.email.invalid"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_EMAIL_INVALID));
         }
         if (adminDao.existsByEmail(adminRequestDto.connectedUserRequestDto().email())) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.email.already.exists"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_EMAIL_ALREADY_EXIST));
         }
         if (adminRequestDto.connectedUserRequestDto().password() == null || adminRequestDto.connectedUserRequestDto().password().isBlank()) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.password.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_PASSWORD_NULL));
         }
         if (!adminRequestDto.connectedUserRequestDto().password().matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[&#@\\-_§])[A-Za-z\\d&#@\\-_§]{8,16}$")) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.password.invalid"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_PASSWORD_INVALID));
         }
         if (adminRequestDto.function() == null || adminRequestDto.function().isBlank()) {
-            throw new ConnectedUserException(messages.getMessage("admin.function.null"));
+            throw new ConnectedUserException(messages.getMessage(Messages.ADMIN_FUNCTION_NULL));
         }
     }
+
 
     private Admin validateAdmin(int idAmin, String email, String password) {
         Optional<Admin> adminOpt = adminDao.findById(idAmin);
         if (adminOpt.isEmpty()) {
-            throw new ConnectedUserException(messages.getMessage("admin.id.not.found"));
+            throw new ConnectedUserException(messages.getMessage(Messages.ADMIN_ID_NOT_FOUND));
         }
         if (adminOpt.get().getRole() != Role.ADMIN) {
-            throw new ConnectedUserException(messages.getMessage("admin.role.not.allowed"));
+            throw new ConnectedUserException(messages.getMessage(Messages.ADMIN_ROLE_NOT_ALLOWED));
         }
         if (!adminOpt.get().getEmail().equals(email)) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.email.not.allowed"));
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_EMAIL_NOT_ALLOWED));
         }
-        if (!adminOpt.get().getPassword().equals(password)) {
-            throw new ConnectedUserException(messages.getMessage("connectedUser.password.not.allowed"));
+        if (!passwordEncoder.matches(password, adminOpt.get().getPassword())) {
+            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_PASSWORD_NOT_ALLOWED));
         }
         return adminOpt.get();
     }
