@@ -36,14 +36,14 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public AdminResponseDto findById(int id, String email, String password) {
-        Admin admin = validateAdmin(id, email, password);
+    public AdminResponseDto findById(int id, String email) {
+        Admin admin = validateAdmin(id, email);
         return adminMapper.toAdminResponseDto(admin);
     }
 
     @Override
-    public AdminResponseDto partiallyUpdateAdmin(int idAmin, String email, String password, AdminRequestDto adminRequestDto) {
-        Admin admin = validateAdmin(idAmin, email, password);
+    public AdminResponseDto partiallyUpdateAdmin(int idAmin, String email, AdminRequestDto adminRequestDto) {
+        Admin admin = validateAdmin(idAmin, email);
         if (adminRequestDto.connectedUserRequestDto().firstName() != null && !adminRequestDto.connectedUserRequestDto().firstName().isBlank()){
             admin.setFirstName(adminRequestDto.connectedUserRequestDto().firstName());
         }
@@ -53,9 +53,6 @@ public class AdminServiceImpl implements AdminService{
         if (adminRequestDto.connectedUserRequestDto().email() != null && !adminRequestDto.connectedUserRequestDto().email().isBlank()){
             admin.setEmail(adminRequestDto.connectedUserRequestDto().email());
         }
-        if (adminRequestDto.connectedUserRequestDto().password() != null && !adminRequestDto.connectedUserRequestDto().password().isBlank()){
-            admin.setPassword(adminRequestDto.connectedUserRequestDto().password());
-        }
         if (adminRequestDto.function() != null && !adminRequestDto.function().isBlank()){
             admin.setFunction(adminRequestDto.function());
         }
@@ -63,8 +60,8 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public void deleteAdmin(int idAmin, String email, String password) throws ConnectedUserException {
-        validateAdmin(idAmin, email, password);
+    public void deleteAdmin(int idAmin, String email) throws ConnectedUserException {
+        validateAdmin(idAmin, email);
         adminDao.deleteById(idAmin);
     }
 
@@ -100,7 +97,7 @@ public class AdminServiceImpl implements AdminService{
     }
 
 
-    private Admin validateAdmin(int idAmin, String email, String password) {
+    private Admin validateAdmin(int idAmin, String email) {
         Optional<Admin> adminOpt = adminDao.findById(idAmin);
         if (adminOpt.isEmpty()) {
             throw new ConnectedUserException(messages.getMessage(Messages.ADMIN_ID_NOT_FOUND));
@@ -110,9 +107,6 @@ public class AdminServiceImpl implements AdminService{
         }
         if (!adminOpt.get().getEmail().equals(email)) {
             throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_EMAIL_NOT_ALLOWED));
-        }
-        if (!passwordEncoder.matches(password, adminOpt.get().getPassword())) {
-            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_PASSWORD_NOT_ALLOWED));
         }
         return adminOpt.get();
     }

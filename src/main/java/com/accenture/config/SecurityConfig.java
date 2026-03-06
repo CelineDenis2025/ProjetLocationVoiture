@@ -47,15 +47,50 @@ public class SecurityConfig {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    //@Bean
+//    @Bean
 //    UserDetailsManager userDetailsManager(DataSource dataSource){
 //        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-//        jdbcUserDetailsManager.setUsersByUsernameQuery("select login, password, 1  from utilisateur where login = ?");
-//        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("select login, role from utilisateur where login = ?");
+//        jdbcUserDetailsManager.setUsersByUsernameQuery("select email, password, 1  from connected_user where email = ?");
+//        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
+//                "select cu.email,coalesce(a.role, c.role) as authority from connected_user cu left join admin a on cu.id = a.id left join customer c on cu.id = c.id where cu.email = ?"
+//        );
 //        return jdbcUserDetailsManager;
 //    }
 
+
     @Bean
+    UserDetailsManager userDetailsManager(DataSource dataSource) {
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+        jdbcUserDetailsManager.setUsersByUsernameQuery(
+                """
+                SELECT cu.email, cu.password, true
+                FROM connected_user cu
+                LEFT JOIN admin a ON cu.id = a.id
+                LEFT JOIN customer c ON cu.id = c.id
+                WHERE cu.email = ?
+                """
+        );
+
+
+        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
+                """
+                SELECT cu.email,
+                       CASE
+                           WHEN a.role IS NOT NULL THEN 'ROLE_ADMIN'
+                           WHEN c.role IS NOT NULL THEN 'ROLE_CUSTOMER'
+                       END AS authority
+                FROM connected_user cu
+                LEFT JOIN admin a ON cu.id = a.id
+                LEFT JOIN customer c ON cu.id = c.id
+                WHERE cu.email = ?
+                """
+        );
+
+        return jdbcUserDetailsManager;
+    }
+
+
+//    @Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
         UserDetails user = org.springframework.security.core.userdetails.User
                 .withUsername("user")

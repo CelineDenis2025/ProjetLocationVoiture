@@ -3,8 +3,6 @@ package com.accenture.controller;
 import com.accenture.controller.advice.ErrorDto;
 import com.accenture.service.dto.AdminRequestDto;
 import com.accenture.service.dto.AdminResponseDto;
-import com.accenture.service.dto.CustomerRequestDto;
-import com.accenture.service.dto.CustomerResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,20 +27,20 @@ public interface AdminApi {
     @ApiResponse(responseCode = "200", description = "Admin found")
     @ApiResponse(responseCode = "404", description = "Admin not found",
             content = @Content(schema = @Schema(implementation = ErrorDto.class)))
-    @GetMapping("/{id}")
-    ResponseEntity<AdminResponseDto> admin(@Parameter(description = "ID of the admin", required = true) @PathVariable("id") int idAdmin, String email, String password);
+    @GetMapping("/{id}/{email}")
+    ResponseEntity<AdminResponseDto> getAdmin(@Parameter(description = "ID of the admin", required = true) @PathVariable("id") int idAdmin, @PathVariable("email") String email);
 
     @Operation(summary = "Partially update an admin")
     @ApiResponse(responseCode = "200", description = "Admin partially updated")
     @ApiResponse(responseCode = "404", description = "Admin not found",
             content = @Content(schema = @Schema(implementation = ErrorDto.class)))
     @PatchMapping("/{id}")
-    ResponseEntity<AdminResponseDto> patchAdmin(@Parameter(description = "ID of the admin", required = true) @PathVariable("id") int idAdmin, String email,  String password, @RequestBody AdminRequestDto adminRequestDto);
+    ResponseEntity<AdminResponseDto> patchAdmin(@Parameter(description = "ID of the admin", required = true) @PathVariable("id") int idAdmin, String email, @RequestBody AdminRequestDto adminRequestDto);
 
     @Operation(summary = "Delete an admin by its id")
     @ApiResponse(responseCode = "204", description = "Admin deleted")
     @ApiResponse(responseCode = "404", description = "Admin not found",
             content = @Content(schema = @Schema(implementation = ErrorDto.class)))
     @DeleteMapping("/{id}")
-    ResponseEntity<Void> deleteAdmin(@Parameter(description = "ID of the admin", required = true) @PathVariable("id") int idAdmin, String email,  String password);
+    ResponseEntity<Void> deleteAdmin(@Parameter(description = "ID of the admin", required = true) @PathVariable("id") int idAdmin, String email);
 }

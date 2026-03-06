@@ -14,7 +14,6 @@ public interface CustomerService {
     CustomerResponseDto partiallyUpdateCustomer(int idCustomer, String email, String password, CustomerRequestDto customerRequestDto);
     void deleteCustomer(int idCustomer, String email, String password) throws ConnectedUserException;
 
-    List<VehiculeResponseDto> FindAllVehicules();
 
 
 }
