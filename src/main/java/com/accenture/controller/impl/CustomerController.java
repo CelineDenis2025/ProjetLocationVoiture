@@ -7,6 +7,7 @@ import com.accenture.service.dto.CustomerResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -30,19 +31,19 @@ public class CustomerController implements CustomerApi {
     }
 
     @Override
-    public ResponseEntity<CustomerResponseDto> customer(int idCustomer, String email, String password) {
-        return ResponseEntity.ok(customerService.findById(idCustomer, email, password));
+    public ResponseEntity<CustomerResponseDto> getCustomer(int idCustomer) {
+        return ResponseEntity.ok(customerService.findById(idCustomer));
     }
 
     @Override
-    public ResponseEntity<CustomerResponseDto> patchCustomer(int idCustomer, String email, String password, CustomerRequestDto customerRequestDto) {
-        CustomerResponseDto customerResponseDto = customerService.partiallyUpdateCustomer(idCustomer, email, password, customerRequestDto);
+    public ResponseEntity<CustomerResponseDto> patchCustomer(int idCustomer, CustomerRequestDto customerRequestDto) {
+        CustomerResponseDto customerResponseDto = customerService.partiallyUpdateCustomer(idCustomer, customerRequestDto);
         return  ResponseEntity.ok(customerResponseDto);
     }
 
     @Override
-    public ResponseEntity<Void> deleteCustomer(int idCustomer, String email, String password) {
-        customerService.deleteCustomer(idCustomer, email, password);
+    public ResponseEntity<Void> deleteCustomer(int idCustomer) {
+        customerService.deleteCustomer(idCustomer);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

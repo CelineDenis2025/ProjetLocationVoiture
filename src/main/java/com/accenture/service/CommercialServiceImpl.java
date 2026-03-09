@@ -99,13 +99,13 @@ public class CommercialServiceImpl implements CommercialService {
         if (commercialRequestDto == null) {
             throw new VehiculeException(messages.getMessage(Messages.COMMERCIAL_NULL));
         }
-        if (commercialRequestDto.vehiculeRequestDto().brand() == null) {
+        if (commercialRequestDto.vehiculeRequestDto().brand() == null || commercialRequestDto.vehiculeRequestDto().brand().isBlank()) {
             throw new VehiculeException(messages.getMessage(Messages.VEHICULE_BRAND_NULL));
         }
-        if (commercialRequestDto.vehiculeRequestDto().model() == null) {
+        if (commercialRequestDto.vehiculeRequestDto().model() == null || commercialRequestDto.vehiculeRequestDto().model().isBlank()) {
             throw new VehiculeException(messages.getMessage(Messages.VEHICULE_MODEL_NULL));
         }
-        if (commercialRequestDto.vehiculeRequestDto().color() == null) {
+        if (commercialRequestDto.vehiculeRequestDto().color() == null || commercialRequestDto.vehiculeRequestDto().color().isBlank()) {
             throw new VehiculeException(messages.getMessage(Messages.VEHICULE_COLOR_NULL));
         }
         if (commercialRequestDto.nbPlaces() == null || commercialRequestDto.nbPlaces() < 0) {

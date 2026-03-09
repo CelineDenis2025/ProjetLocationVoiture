@@ -16,12 +16,8 @@ public abstract class Vehicule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected long id;
+    protected int id;
     protected String brand;
     protected String model;
     protected String color;
-//    protected float dailyBaseRentalRate;
-//    protected float mileage;
-//    protected boolean active;
-//    protected boolean removedFromTheFleet;
 }

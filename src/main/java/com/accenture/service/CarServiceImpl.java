@@ -6,6 +6,7 @@ import com.accenture.model.Car;
 import com.accenture.repository.CarDao;
 import com.accenture.service.dto.CarRequestDto;
 import com.accenture.service.dto.CarResponseDto;
+import com.accenture.service.dto.VehiculeRequestDto;
 import com.accenture.utils.Messages;
 import lombok.AllArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -52,15 +53,19 @@ public class CarServiceImpl implements CarService {
     public CarResponseDto partiallyUpdateCar(int idCar, CarRequestDto carRequestDto) {
         Car car = validateCar(idCar);
 
-        if (carRequestDto.vehiculeRequestDto().brand() != null && !carRequestDto.vehiculeRequestDto().brand().isBlank()) {
-            car.setBrand(carRequestDto.vehiculeRequestDto().brand());
+        VehiculeRequestDto vehiculeRequestDto = carRequestDto.vehiculeRequestDto();
+        if (vehiculeRequestDto != null) {
+            if(vehiculeRequestDto.brand() != null && !vehiculeRequestDto.brand().isBlank()) {
+                car.setBrand(vehiculeRequestDto.brand());
+            }
+            if(vehiculeRequestDto.model() != null && !vehiculeRequestDto.model().isBlank()) {
+                car.setModel(vehiculeRequestDto.model());
+            }
+            if(vehiculeRequestDto.color() != null && !vehiculeRequestDto.color().isBlank()) {
+                car.setColor(vehiculeRequestDto.color());
+            }
         }
-        if (carRequestDto.vehiculeRequestDto().model() != null && !carRequestDto.vehiculeRequestDto().model().isBlank()) {
-            car.setModel(carRequestDto.vehiculeRequestDto().model());
-        }
-        if (carRequestDto.vehiculeRequestDto().color() != null && !carRequestDto.vehiculeRequestDto().color().isBlank()) {
-            car.setColor(carRequestDto.vehiculeRequestDto().color());
-        }
+
         if (carRequestDto.nbPlaces() != null) {
             car.setNbPlaces(carRequestDto.nbPlaces());
         }
@@ -95,13 +100,13 @@ public class CarServiceImpl implements CarService {
         if (carRequestDto == null) {
             throw new VehiculeException(messages.getMessage(Messages.CAR_NULL));
         }
-        if (carRequestDto.vehiculeRequestDto().brand() == null) {
+        if (carRequestDto.vehiculeRequestDto().brand() == null || carRequestDto.vehiculeRequestDto().brand().isBlank()) {
             throw new VehiculeException(messages.getMessage(Messages.VEHICULE_BRAND_NULL));
         }
-        if (carRequestDto.vehiculeRequestDto().model() == null) {
+        if (carRequestDto.vehiculeRequestDto().model() == null || carRequestDto.vehiculeRequestDto().model().isBlank()) {
             throw new VehiculeException(messages.getMessage(Messages.VEHICULE_MODEL_NULL));
         }
-        if (carRequestDto.vehiculeRequestDto().color() == null) {
+        if (carRequestDto.vehiculeRequestDto().color() == null || carRequestDto.vehiculeRequestDto().color().isBlank()) {
             throw new VehiculeException(messages.getMessage(Messages.VEHICULE_COLOR_NULL));
         }
         if (carRequestDto.nbPlaces() == null || carRequestDto.nbPlaces() < 0) {

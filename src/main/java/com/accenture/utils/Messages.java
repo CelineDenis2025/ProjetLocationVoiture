@@ -53,7 +53,7 @@ public class Messages {
     public static final String BIKE_TYPE_NULL = "bike.bikeType.null";
 
 
-    // BIKE
+    // CAR
     public static final String CAR_ID_NOT_FOUND = "car.id.not.found";
     public static final String CAR_NULL = "car.null";
     public static final String CAR_NB_PLACES_NULL = "car.nbPlaces.null";

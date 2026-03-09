@@ -7,11 +7,6 @@ public record CarResponseDto(
 
         VehiculeResponseDto vehiculeResponseDto,
 
-//        float dailyBaseRentalRate,
-//        float mileage,
-//        boolean active,
-//        boolean removedFromTheFleet,
-
         int nbPlaces,
         FuelType fuelType,
         NbDoors nbDoors,

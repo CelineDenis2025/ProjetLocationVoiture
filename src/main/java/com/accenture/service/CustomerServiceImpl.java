@@ -5,16 +5,21 @@ import com.accenture.mapper.CustomerMapper;
 import com.accenture.model.Address;
 import com.accenture.model.Customer;
 import com.accenture.model.enums.Role;
+import com.accenture.repository.ConnectedUserDao;
 import com.accenture.repository.CustomerDao;
 import com.accenture.service.dto.CustomerRequestDto;
 import com.accenture.service.dto.CustomerResponseDto;
 import com.accenture.utils.Messages;
 import lombok.AllArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -24,6 +29,7 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerDao customerDao;
+    private final ConnectedUserDao connectedUserDao;
     private final CustomerMapper customerMapper;
     private final MessageSourceAccessor messages;
     private final PasswordEncoder passwordEncoder;
@@ -39,16 +45,16 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Transactional(readOnly = true)
     @Override
-    public CustomerResponseDto findById(int id, String email, String password) {
-        Customer customer = validateCustomer(id, email, password);
+    public CustomerResponseDto findById(int id) {
+        Customer customer = validateCustomer(id);
         return customerMapper.toCustomerResponseDto(customer);
     }
 
     @Override
-    public CustomerResponseDto partiallyUpdateCustomer(int idCustomer, String email, String password, CustomerRequestDto customerRequestDto) {
-       Customer customer = validateCustomer(idCustomer, email, password);
+    public CustomerResponseDto partiallyUpdateCustomer(int idCustomer, CustomerRequestDto customerRequestDto) {
+        Customer customer = validateCustomer(idCustomer);
         if (customerRequestDto.connectedUserRequestDto().firstName() != null && !customerRequestDto.connectedUserRequestDto().firstName().isBlank()){
-           customer.setFirstName(customerRequestDto.connectedUserRequestDto().firstName());
+            customer.setFirstName(customerRequestDto.connectedUserRequestDto().firstName());
         }
         if (customerRequestDto.connectedUserRequestDto().lastName() != null && !customerRequestDto.connectedUserRequestDto().lastName().isBlank()){
             customer.setLastName(customerRequestDto.connectedUserRequestDto().lastName());
@@ -84,9 +90,10 @@ public class CustomerServiceImpl implements CustomerService {
         return customerMapper.toCustomerResponseDto(customer);
     }
 
+
     @Override
-    public void deleteCustomer(int idCustomer, String email, String password) throws ConnectedUserException {
-        validateCustomer(idCustomer, email, password);
+    public void deleteCustomer(int idCustomer) throws ConnectedUserException {
+        validateCustomer(idCustomer);
         customerDao.deleteById(idCustomer);
     }
 
@@ -140,19 +147,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
-    private Customer validateCustomer(int idCustomer, String email, String password) {
+    private Customer validateCustomer(int idCustomer) {
         Optional<Customer> customerOpt = customerDao.findById(idCustomer);
         if (customerOpt.isEmpty()) {
             throw new ConnectedUserException(messages.getMessage(Messages.CUSTOMER_ID_NOT_FOUND));
-        }
-        if (customerOpt.get().getRole() != Role.USER) {
-            throw new ConnectedUserException(messages.getMessage(Messages.CUSTOMER_ROLE_NOT_ALLOWED));
-        }
-        if (!customerOpt.get().getEmail().equals(email)) {
-            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_EMAIL_NOT_ALLOWED));
-        }
-        if (!passwordEncoder.matches(password, customerOpt.get().getPassword())) {
-            throw new ConnectedUserException(messages.getMessage(Messages.CONNECTED_USER_PASSWORD_NOT_ALLOWED));
         }
         return customerOpt.get();
     }

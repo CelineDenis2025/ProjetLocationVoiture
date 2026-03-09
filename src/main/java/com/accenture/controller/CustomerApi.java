@@ -28,19 +28,19 @@ public interface CustomerApi {
     @ApiResponse(responseCode = "404", description = "Customer not found",
             content = @Content(schema = @Schema(implementation = ErrorDto.class)))
     @GetMapping("/{id}")
-    ResponseEntity<CustomerResponseDto> customer(@Parameter(description = "ID of the customer", required = true) @PathVariable("id") int idCustomer, String email,  String password);
+    ResponseEntity<CustomerResponseDto> getCustomer(@Parameter(description = "ID of the customer", required = true) @PathVariable("id") int idCustomer);
 
     @Operation(summary = "Partially update a customer")
     @ApiResponse(responseCode = "200", description = "Customer partially updated")
     @ApiResponse(responseCode = "404", description = "Customer not found",
             content = @Content(schema = @Schema(implementation = ErrorDto.class)))
     @PatchMapping("/{id}")
-    ResponseEntity<CustomerResponseDto> patchCustomer(@Parameter(description = "ID of the customer", required = true) @PathVariable("id") int idCustomer, String email,  String password, @RequestBody CustomerRequestDto customerRequestDto);
+    ResponseEntity<CustomerResponseDto> patchCustomer(@Parameter(description = "ID of the customer", required = true) @PathVariable("id") int idCustomer, @RequestBody CustomerRequestDto customerRequestDto);
 
     @Operation(summary = "Delete a customer by its id")
     @ApiResponse(responseCode = "204", description = "Customer deleted")
     @ApiResponse(responseCode = "404", description = "Customer not found",
             content = @Content(schema = @Schema(implementation = ErrorDto.class)))
     @DeleteMapping("/{id}")
-    ResponseEntity<Void> deleteCustomer(@Parameter(description = "ID of the customer", required = true) @PathVariable("id") int idCustomer, String email,  String password);
+    ResponseEntity<Void> deleteCustomer(@Parameter(description = "ID of the customer", required = true) @PathVariable("id") int idCustomer);
 }

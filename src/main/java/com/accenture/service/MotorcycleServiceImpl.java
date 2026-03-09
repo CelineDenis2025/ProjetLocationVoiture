@@ -102,13 +102,13 @@ public class MotorcycleServiceImpl implements MotorcycleService {
         if (motorcycleRequestDto == null) {
             throw new VehiculeException(messages.getMessage(Messages.MOTORCYCLE_NULL));
         }
-        if (motorcycleRequestDto.vehiculeRequestDto().brand() == null) {
+        if (motorcycleRequestDto.vehiculeRequestDto().brand() == null || motorcycleRequestDto.vehiculeRequestDto().brand().isBlank()) {
             throw new VehiculeException(messages.getMessage(Messages.VEHICULE_BRAND_NULL));
         }
-        if (motorcycleRequestDto.vehiculeRequestDto().model() == null) {
+        if (motorcycleRequestDto.vehiculeRequestDto().model() == null || motorcycleRequestDto.vehiculeRequestDto().model().isBlank()) {
             throw new VehiculeException(messages.getMessage(Messages.VEHICULE_MODEL_NULL));
         }
-        if (motorcycleRequestDto.vehiculeRequestDto().color() == null) {
+        if (motorcycleRequestDto.vehiculeRequestDto().color() == null || motorcycleRequestDto.vehiculeRequestDto().color().isBlank()) {
             throw new VehiculeException(messages.getMessage(Messages.VEHICULE_COLOR_NULL));
         }
         if (motorcycleRequestDto.nbCylinders() == null || motorcycleRequestDto.nbCylinders() < 0) {

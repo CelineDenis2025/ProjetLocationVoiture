@@ -27,20 +27,20 @@ public interface AdminApi {
     @ApiResponse(responseCode = "200", description = "Admin found")
     @ApiResponse(responseCode = "404", description = "Admin not found",
             content = @Content(schema = @Schema(implementation = ErrorDto.class)))
-    @GetMapping("/{id}/{email}")
-    ResponseEntity<AdminResponseDto> getAdmin(@Parameter(description = "ID of the admin", required = true) @PathVariable("id") int idAdmin, @PathVariable("email") String email);
+    @GetMapping("/{id}")
+    ResponseEntity<AdminResponseDto> getAdmin(@Parameter(description = "ID of the admin", required = true) @PathVariable("id") int idAdmin);
 
     @Operation(summary = "Partially update an admin")
     @ApiResponse(responseCode = "200", description = "Admin partially updated")
     @ApiResponse(responseCode = "404", description = "Admin not found",
             content = @Content(schema = @Schema(implementation = ErrorDto.class)))
     @PatchMapping("/{id}")
-    ResponseEntity<AdminResponseDto> patchAdmin(@Parameter(description = "ID of the admin", required = true) @PathVariable("id") int idAdmin, String email, @RequestBody AdminRequestDto adminRequestDto);
+    ResponseEntity<AdminResponseDto> patchAdmin(@Parameter(description = "ID of the admin", required = true) @PathVariable("id") int idAdmin, @RequestBody AdminRequestDto adminRequestDto);
 
     @Operation(summary = "Delete an admin by its id")
     @ApiResponse(responseCode = "204", description = "Admin deleted")
     @ApiResponse(responseCode = "404", description = "Admin not found",
             content = @Content(schema = @Schema(implementation = ErrorDto.class)))
     @DeleteMapping("/{id}")
-    ResponseEntity<Void> deleteAdmin(@Parameter(description = "ID of the admin", required = true) @PathVariable("id") int idAdmin, String email);
+    ResponseEntity<Void> deleteAdmin(@Parameter(description = "ID of the admin", required = true) @PathVariable("id") int idAdmin);
 }

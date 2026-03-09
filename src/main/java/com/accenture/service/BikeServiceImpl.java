@@ -5,10 +5,10 @@ import com.accenture.exception.VehiculeException;
 import com.accenture.mapper.BikeMapper;
 import com.accenture.model.Admin;
 import com.accenture.model.Bike;
+import com.accenture.model.Car;
 import com.accenture.model.enums.Role;
 import com.accenture.repository.BikeDao;
-import com.accenture.service.dto.BikeRequestDto;
-import com.accenture.service.dto.BikeResponseDto;
+import com.accenture.service.dto.*;
 import com.accenture.utils.Messages;
 import lombok.AllArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -51,19 +51,21 @@ public class BikeServiceImpl implements BikeService {
         return bikeMapper.toBikeResponseDto(bike);
     }
 
-
     @Override
     public BikeResponseDto partiallyUpdateBike(int idBike, BikeRequestDto bikeRequestDto) {
         Bike bike = validateBike(idBike);
 
-        if (bikeRequestDto.vehiculeRequestDto().brand() != null && !bikeRequestDto.vehiculeRequestDto().brand().isBlank()) {
-            bike.setBrand(bikeRequestDto.vehiculeRequestDto().brand());
-        }
-        if (bikeRequestDto.vehiculeRequestDto().model() != null && !bikeRequestDto.vehiculeRequestDto().model().isBlank()) {
-            bike.setModel(bikeRequestDto.vehiculeRequestDto().model());
-        }
-        if (bikeRequestDto.vehiculeRequestDto().color() != null && !bikeRequestDto.vehiculeRequestDto().color().isBlank()) {
-            bike.setColor(bikeRequestDto.vehiculeRequestDto().color());
+        VehiculeRequestDto vehiculeRequestDto = bikeRequestDto.vehiculeRequestDto();
+        if (vehiculeRequestDto != null) {
+            if(vehiculeRequestDto.brand() != null && !vehiculeRequestDto.brand().isBlank()) {
+                bike.setBrand(vehiculeRequestDto.brand());
+            }
+            if(vehiculeRequestDto.model() != null && !vehiculeRequestDto.model().isBlank()) {
+                bike.setModel(vehiculeRequestDto.model());
+            }
+            if(vehiculeRequestDto.color() != null && !vehiculeRequestDto.color().isBlank()) {
+                bike.setColor(vehiculeRequestDto.color());
+            }
         }
 
         if (bikeRequestDto.frameSize() != null) {
@@ -99,7 +101,6 @@ public class BikeServiceImpl implements BikeService {
         return bikeMapper.toBikeResponseDto(bike);
     }
 
-
     @Override
     public void deleteBike(int idBike) throws VehiculeException {
         validateBike(idBike);
@@ -111,13 +112,13 @@ public class BikeServiceImpl implements BikeService {
         if (bikeRequestDto == null) {
             throw new VehiculeException(messages.getMessage(Messages.BIKE_NULL));
         }
-        if (bikeRequestDto.vehiculeRequestDto().brand() == null) {
+        if (bikeRequestDto.vehiculeRequestDto().brand() == null || bikeRequestDto.vehiculeRequestDto().brand().isBlank()) {
             throw new VehiculeException(messages.getMessage(Messages.VEHICULE_BRAND_NULL));
         }
-        if (bikeRequestDto.vehiculeRequestDto().model() == null) {
+        if (bikeRequestDto.vehiculeRequestDto().model() == null || bikeRequestDto.vehiculeRequestDto().model().isBlank()) {
             throw new VehiculeException(messages.getMessage(Messages.VEHICULE_MODEL_NULL));
         }
-        if (bikeRequestDto.vehiculeRequestDto().color() == null) {
+        if (bikeRequestDto.vehiculeRequestDto().color() == null || bikeRequestDto.vehiculeRequestDto().color().isBlank()) {
             throw new VehiculeException(messages.getMessage(Messages.VEHICULE_COLOR_NULL));
         }
         if (bikeRequestDto.frameSize() == null || bikeRequestDto.frameSize() < 0 || bikeRequestDto.frameSize().isNaN()) {

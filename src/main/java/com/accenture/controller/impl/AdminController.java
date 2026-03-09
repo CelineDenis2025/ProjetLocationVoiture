@@ -19,7 +19,7 @@ public class AdminController implements AdminApi {
 
     private final AdminService adminService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public ResponseEntity<Void> addAdmin(AdminRequestDto adminRequestDto) {
         AdminResponseDto adminResponseDto = adminService.addAdmin(adminRequestDto);
@@ -33,21 +33,22 @@ public class AdminController implements AdminApi {
 
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public ResponseEntity<AdminResponseDto> getAdmin(int idAdmin, String email) {
-        return ResponseEntity.ok(adminService.findById(idAdmin, email));
+    public ResponseEntity<AdminResponseDto> getAdmin(int idAdmin) {
+        return ResponseEntity.ok(adminService.findById(idAdmin));
     }
+
 
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public ResponseEntity<AdminResponseDto> patchAdmin(int idAdmin, String email, AdminRequestDto adminRequestDto) {
-        AdminResponseDto adminResponseDto = adminService.partiallyUpdateAdmin(idAdmin, email, adminRequestDto);
+    public ResponseEntity<AdminResponseDto> patchAdmin(int idAdmin, AdminRequestDto adminRequestDto) {
+        AdminResponseDto adminResponseDto = adminService.partiallyUpdateAdmin(idAdmin, adminRequestDto);
         return ResponseEntity.ok(adminResponseDto);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public ResponseEntity<Void> deleteAdmin(int idAdmin, String email) {
-        adminService.deleteAdmin(idAdmin, email);
+    public ResponseEntity<Void> deleteAdmin(int idAdmin) {
+        adminService.deleteAdmin(idAdmin);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
