@@ -30,17 +30,20 @@ public class CustomerController implements CustomerApi {
         return ResponseEntity.created(location).build();
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @Override
     public ResponseEntity<CustomerResponseDto> getCustomer(int idCustomer) {
         return ResponseEntity.ok(customerService.findById(idCustomer));
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @Override
     public ResponseEntity<CustomerResponseDto> patchCustomer(int idCustomer, CustomerRequestDto customerRequestDto) {
         CustomerResponseDto customerResponseDto = customerService.partiallyUpdateCustomer(idCustomer, customerRequestDto);
         return  ResponseEntity.ok(customerResponseDto);
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @Override
     public ResponseEntity<Void> deleteCustomer(int idCustomer) {
         customerService.deleteCustomer(idCustomer);

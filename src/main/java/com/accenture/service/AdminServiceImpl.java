@@ -59,7 +59,7 @@ public class AdminServiceImpl implements AdminService{
                                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
 
         if (!isAdmin) {
-            throw new ConnectedUserException("Only admins can create another admin");
+            throw new ConnectedUserException(messages.getMessage(Messages.CREATION_ADMIN));
         }
 
         // Cas 3 : admin authentifié → autorisé
@@ -90,6 +90,9 @@ public class AdminServiceImpl implements AdminService{
         if (adminRequestDto.connectedUserRequestDto().email() != null && !adminRequestDto.connectedUserRequestDto().email().isBlank()){
             admin.setEmail(adminRequestDto.connectedUserRequestDto().email());
         }
+        if (adminRequestDto.connectedUserRequestDto().password() != null && !adminRequestDto.connectedUserRequestDto().password().isBlank()){
+            admin.setPassword(passwordEncoder.encode(adminRequestDto.connectedUserRequestDto().password()));
+        }
         if (adminRequestDto.function() != null && !adminRequestDto.function().isBlank()){
             admin.setFunction(adminRequestDto.function());
         }
@@ -97,10 +100,18 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public void deleteAdmin(int idAmin) throws ConnectedUserException {
-        validateAdmin(idAmin);
-        adminDao.deleteById(idAmin);
+    public void deleteAdmin(int idAdmin) throws ConnectedUserException {
+
+        long adminCount = adminDao.count();
+
+        if (adminCount <= 1) {
+            throw new ConnectedUserException(messages.getMessage(Messages.DELETE_LAST_ADMIN));
+        }
+
+        Admin admin = validateAdmin(idAdmin);
+        adminDao.delete(admin);
     }
+
 
 
     private void verify(AdminRequestDto adminRequestDto) {

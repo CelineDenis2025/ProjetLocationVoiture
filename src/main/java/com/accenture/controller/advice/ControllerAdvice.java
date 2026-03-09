@@ -1,5 +1,6 @@
 package com.accenture.controller.advice;
 
+import com.accenture.exception.ConnectedUserException;
 import com.accenture.exception.VehiculeException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.context.MessageSource;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.smartcardio.CardException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 @RestControllerAdvice
 public class ControllerAdvice {
@@ -84,16 +88,21 @@ public class ControllerAdvice {
         return ResponseEntity.badRequest().body(errorsDto);
     }
 
-//    /**
-//     * Appelée en dernier recours pour toute exception non gérée explicitement.
-//     * Renvoie un 400 BAD_REQUEST générique.
-//     */
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<ErrorDto> ex(Exception e) {
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( new ErrorDto(
-//                java.time.LocalDateTime.now(),
-//                HttpStatus.BAD_REQUEST.value(),
-//                e.getMessage()
-//        ));
-//    }
+    @RestControllerAdvice
+    public class GlobalExceptionHandler {
+
+        @ExceptionHandler(ConnectedUserException.class)
+        public ResponseEntity<ErrorsDto> handleConnectedUserException(ConnectedUserException ex) {
+
+            ErrorsDto dto = new ErrorsDto(
+                    LocalDateTime.now(),
+                    HttpStatus.CONFLICT.value(),
+                    List.of(new ErrorValidDto("business-rule", ex.getMessage()))
+            );
+
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(dto);
+        }
+    }
 }

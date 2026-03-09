@@ -32,7 +32,8 @@ public class Messages {
     public static final String ADMIN_ROLE_NOT_ALLOWED = "admin.role.not.allowed";
     public static final String ADMIN_NULL = "admin.null";
     public static final String ADMIN_FUNCTION_NULL = "admin.function.null";
-
+    public static final String CREATION_ADMIN = "admin.create.admin";
+    public static final String DELETE_LAST_ADMIN = "admin.delete.last.admin";
 
     // VEHICULE
     public static final String VEHICULE_BRAND_NULL = "vehicule.brand.null";

@@ -19,7 +19,6 @@ public class AdminController implements AdminApi {
 
     private final AdminService adminService;
 
-//    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public ResponseEntity<Void> addAdmin(AdminRequestDto adminRequestDto) {
         AdminResponseDto adminResponseDto = adminService.addAdmin(adminRequestDto);

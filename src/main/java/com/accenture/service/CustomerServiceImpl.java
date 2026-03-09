@@ -63,7 +63,7 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setEmail(customerRequestDto.connectedUserRequestDto().email());
         }
         if (customerRequestDto.connectedUserRequestDto().password() != null && !customerRequestDto.connectedUserRequestDto().password().isBlank()){
-            customer.setPassword(customerRequestDto.connectedUserRequestDto().password());
+            customer.setPassword(passwordEncoder.encode(customerRequestDto.connectedUserRequestDto().password()));
         }
         if (customerRequestDto.dateOfBirth() != null){
             customer.setDateOfBirth(customerRequestDto.dateOfBirth());
