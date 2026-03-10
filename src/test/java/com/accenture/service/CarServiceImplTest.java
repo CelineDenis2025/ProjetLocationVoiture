@@ -18,17 +18,18 @@ import org.springframework.context.support.StaticMessageSource;
 
 import java.util.Locale;
 
-public class CarServiceImplTest {
+class CarServiceImplTest {
 
     private FakeCarDao fakeCarDao;
     private FakeCarMapper fakeCarMapper;
     private CarServiceImpl carService;
 
+
+
     @BeforeEach
     void setUp() {
         fakeCarDao = new FakeCarDao();
         fakeCarMapper = new FakeCarMapper();
-
         carService = new CarServiceImpl(fakeCarDao, fakeCarMapper, messageAccessor());
     }
 
@@ -73,7 +74,7 @@ public class CarServiceImplTest {
 
         @Test
         @DisplayName("OK")
-        void addCar_ok() {
+        void addCarOk() {
 
             VehiculeRequestDto vehicule = new VehiculeRequestDto(
                     "Renault",
@@ -109,13 +110,13 @@ public class CarServiceImplTest {
 
     @Test
     @DisplayName("invalid (null)")
-    void addCar_invalid_null() {
+    void addCarInvalidNull() {
         Assertions.assertThrows(VehiculeException.class, () -> carService.addCar(null));
     }
 
     @Test
     @DisplayName("invalid (brand empty)")
-    void addCar_brand_Empty() {
+    void addCarBrandEmpty() {
 
         VehiculeRequestDto vehicule = new VehiculeRequestDto(
                 "",
@@ -137,8 +138,30 @@ public class CarServiceImplTest {
     }
 
     @Test
+    @DisplayName("invalid (brand null)")
+    void addCarBrandNull() {
+        VehiculeRequestDto vehicule = new VehiculeRequestDto(
+                null,
+                "Clio",
+                "rouge"
+        );
+        CarRequestDto dto = new CarRequestDto(
+                vehicule,
+                4,
+                FuelType.ESSENCE,
+                NbDoors.FIVE,
+                Transmission.MANUAL,
+                true,
+                3,
+                CarTypes.LUXURY_CAR);
+
+        Assertions.assertThrows(VehiculeException.class, () -> carService.addCar(dto));
+    }
+
+
+    @Test
     @DisplayName("invalid (model empty)")
-    void addCar_model_Empty() {
+    void addCarModelEmpty() {
 
         VehiculeRequestDto vehicule = new VehiculeRequestDto(
                 "Renault",
@@ -159,9 +182,31 @@ public class CarServiceImplTest {
         Assertions.assertThrows(VehiculeException.class, () -> carService.addCar(requestDto));
     }
 
+
+    @Test
+    @DisplayName("invalid (model null)")
+    void addCarModelNull() {
+        VehiculeRequestDto vehicule = new VehiculeRequestDto(
+                "Renault",
+                null,
+                "rouge"
+        );
+        CarRequestDto dto = new CarRequestDto(
+                vehicule,
+                4,
+                FuelType.ESSENCE,
+                NbDoors.FIVE,
+                Transmission.MANUAL,
+                true,
+                3,
+                CarTypes.LUXURY_CAR);
+
+        Assertions.assertThrows(VehiculeException.class, () -> carService.addCar(dto));
+    }
+
     @Test
     @DisplayName("invalid (color empty)")
-    void addCar_color_Empty() {
+    void addCarColorEmpty() {
 
         VehiculeRequestDto vehicule = new VehiculeRequestDto(
                 "Renault",
@@ -183,8 +228,29 @@ public class CarServiceImplTest {
     }
 
     @Test
-    @DisplayName("invalid (nb place empty)")
-    void addCar_nb_place_Empty() {
+    @DisplayName("invalid (color null)")
+    void addCarColorNull() {
+        VehiculeRequestDto vehicule = new VehiculeRequestDto(
+                "Renault",
+                "Clio",
+                null
+        );
+        CarRequestDto dto = new CarRequestDto(
+                vehicule,
+                4,
+                FuelType.ESSENCE,
+                NbDoors.FIVE,
+                Transmission.MANUAL,
+                true,
+                3,
+                CarTypes.LUXURY_CAR);
+
+        Assertions.assertThrows(VehiculeException.class, () -> carService.addCar(dto));
+    }
+
+    @Test
+    @DisplayName("invalid (nb place null)")
+    void addCarNbPlaceNull() {
 
         VehiculeRequestDto vehicule = new VehiculeRequestDto(
                 "Renault",
@@ -205,9 +271,10 @@ public class CarServiceImplTest {
         Assertions.assertThrows(VehiculeException.class, () -> carService.addCar(requestDto));
     }
 
+
     @Test
-    @DisplayName("invalid (fuel type empty)")
-    void addCar_fuel_type_Empty() {
+    @DisplayName("invalid (fuel type null)")
+    void addCarFuelTypeNull() {
 
         VehiculeRequestDto vehicule = new VehiculeRequestDto(
                 "Renault",
@@ -228,9 +295,10 @@ public class CarServiceImplTest {
         Assertions.assertThrows(VehiculeException.class, () -> carService.addCar(requestDto));
     }
 
+
     @Test
-    @DisplayName("invalid (nb door empty)")
-    void addCar_nb_door_Empty() {
+    @DisplayName("invalid (nb door null)")
+    void addCarNbDoorNull() {
 
         VehiculeRequestDto vehicule = new VehiculeRequestDto(
                 "Renault",
@@ -251,9 +319,10 @@ public class CarServiceImplTest {
         Assertions.assertThrows(VehiculeException.class, () -> carService.addCar(requestDto));
     }
 
+
     @Test
-    @DisplayName("invalid (transmission empty)")
-    void addCar_transmission_Empty() {
+    @DisplayName("invalid (transmission null)")
+    void addCarTransmissionNull() {
 
         VehiculeRequestDto vehicule = new VehiculeRequestDto(
                 "Renault",
@@ -274,9 +343,10 @@ public class CarServiceImplTest {
         Assertions.assertThrows(VehiculeException.class, () -> carService.addCar(requestDto));
     }
 
+
     @Test
-    @DisplayName("invalid (air conditioning empty)")
-    void addCar_air_conditioning_Empty() {
+    @DisplayName("invalid (air conditioning null)")
+    void addCarAirConditioningNull() {
 
         VehiculeRequestDto vehicule = new VehiculeRequestDto(
                 "Renault",
@@ -298,8 +368,8 @@ public class CarServiceImplTest {
     }
 
     @Test
-    @DisplayName("invalid (nb luggage empty)")
-    void addCar_nb_luggage_Empty() {
+    @DisplayName("invalid (nb luggage null)")
+    void addCarNbLuggageNull() {
 
         VehiculeRequestDto vehicule = new VehiculeRequestDto(
                 "Renault",
@@ -321,8 +391,8 @@ public class CarServiceImplTest {
     }
 
     @Test
-    @DisplayName("invalid (car type empty)")
-    void addCar_car_type_Empty() {
+    @DisplayName("invalid (car type null)")
+    void addCarCarTypeNull() {
 
         VehiculeRequestDto vehicule = new VehiculeRequestDto(
                 "Renault",
@@ -349,14 +419,14 @@ public class CarServiceImplTest {
 
         @Test
         @DisplayName("not found")
-        void delete_car_not_found() {
+        void deleteCarNotFound() {
             Assertions.assertThrows(VehiculeException.class, () -> carService.deleteCar(99));
         }
     }
 
     @Test
     @DisplayName("car existed")
-    void delete_car_existed() {
+    void deleteCarExisted() {
 
         fakeCarDao.store.put(1, car(
                 1,
@@ -372,13 +442,14 @@ public class CarServiceImplTest {
                 CarTypes.LUXURY_CAR
         ));
 
+        carService.deleteCar(1);
         Assertions.assertThrows(VehiculeException.class, () -> carService.deleteCar(1));
-        Assertions.assertTrue(fakeCarDao.store.containsKey(1));
+        Assertions.assertFalse(fakeCarDao.store.containsKey(1));
     }
 
     @Test
     @DisplayName("OK")
-    void delete_car_ok() {
+    void deleteCarOk() {
         fakeCarDao.store.put(1, car(
                 1,
                 "Renault",
@@ -403,13 +474,13 @@ public class CarServiceImplTest {
 
         @Test
         @DisplayName("Find by id : not found")
-        void find_car_by_id_not_found() {
+        void findCarByIdNotFound() {
             Assertions.assertThrows(VehiculeException.class, () -> carService.findById(99));
         }
 
         @Test
         @DisplayName("Find by id : OK")
-        void find_car_by_id_ok() {
+        void findCarByIdOk() {
             fakeCarDao.store.put(1, car(
                     1,
                     "Renault",
@@ -446,7 +517,7 @@ public class CarServiceImplTest {
 
         @Test
         @DisplayName("OK")
-        void update_car_ok() {
+        void updateCarOk() {
             fakeCarDao.store.put(1, car(
                     1,
                     "Renault",
@@ -493,7 +564,7 @@ public class CarServiceImplTest {
 
         @Test
         @DisplayName("Not Found")
-        void partially_update_car_not_found() {
+        void partiallyUpdateCarNotFound() {
             VehiculeRequestDto vehicule = new VehiculeRequestDto(
                     "Citroën",
                     "Picasso",
@@ -515,7 +586,7 @@ public class CarServiceImplTest {
 
         @Test
         @DisplayName("no change")
-        void partially_update_car_no_change() {
+        void partiallyUpdateCarNoChange() {
             fakeCarDao.store.put(1, car(
                     1,
                     "Renault",

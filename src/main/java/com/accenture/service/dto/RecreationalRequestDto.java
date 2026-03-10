@@ -4,12 +4,14 @@ import com.accenture.model.enums.FuelType;
 import com.accenture.model.enums.RecreationalTypes;
 import com.accenture.model.enums.Transmission;
 import com.accenture.utils.Messages;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record RecreationalRequestDto(
 
+        @Valid
         VehiculeRequestDto vehiculeRequestDto,
 
         @NotNull(message = Messages.RECREATIONAL_NB_PLACES_NULL)

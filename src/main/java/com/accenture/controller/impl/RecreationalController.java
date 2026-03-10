@@ -4,6 +4,7 @@ import com.accenture.controller.RecreationalApi;
 import com.accenture.service.RecreationalService;
 import com.accenture.service.dto.RecreationalRequestDto;
 import com.accenture.service.dto.RecreationalResponseDto;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class RecreationalController implements RecreationalApi {
 
 
     @Override
-    public ResponseEntity<Void> addRecreational(RecreationalRequestDto recreationalRequestDto) {
+    public ResponseEntity<Void> addRecreational(@Valid RecreationalRequestDto recreationalRequestDto) {
         RecreationalResponseDto recreationalResponseDto = recreationalService.addRecreational(recreationalRequestDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -42,7 +43,7 @@ public class RecreationalController implements RecreationalApi {
     }
 
     @Override
-    public ResponseEntity<RecreationalResponseDto> patchRecreational(int idRecreational, RecreationalRequestDto recreationalRequestDto) {
+    public ResponseEntity<RecreationalResponseDto> patchRecreational(int idRecreational, @Valid RecreationalRequestDto recreationalRequestDto) {
         RecreationalResponseDto recreationalResponseDto = recreationalService.partiallyUpdateRecreational(idRecreational, recreationalRequestDto);
         return  ResponseEntity.ok(recreationalResponseDto);
     }

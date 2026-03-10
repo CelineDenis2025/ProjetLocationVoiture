@@ -4,6 +4,7 @@ import com.accenture.controller.CarApi;
 import com.accenture.service.CarService;
 import com.accenture.service.dto.CarRequestDto;
 import com.accenture.service.dto.CarResponseDto;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class CarController implements CarApi {
     private final CarService carService;
 
     @Override
-    public ResponseEntity<Void> addCar(CarRequestDto carRequestDto) {
+    public ResponseEntity<Void> addCar(@Valid CarRequestDto carRequestDto) {
         CarResponseDto carResponseDto = carService.addCar(carRequestDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -41,7 +42,7 @@ public class CarController implements CarApi {
     }
 
     @Override
-    public ResponseEntity<CarResponseDto> patchCar(int idCar, CarRequestDto requestDto) {
+    public ResponseEntity<CarResponseDto> patchCar(int idCar, @Valid CarRequestDto requestDto) {
         CarResponseDto carResponseDto = carService.partiallyUpdateCar(idCar, requestDto);
         return ResponseEntity.ok(carResponseDto);
     }

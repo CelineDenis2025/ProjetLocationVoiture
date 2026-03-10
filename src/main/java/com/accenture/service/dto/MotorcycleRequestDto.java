@@ -3,12 +3,14 @@ package com.accenture.service.dto;
 import com.accenture.model.enums.MotorcycleTypes;
 import com.accenture.model.enums.Transmission;
 import com.accenture.utils.Messages;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record MotorcycleRequestDto(
 
+        @Valid
         VehiculeRequestDto vehiculeRequestDto,
 
         @NotNull(message = Messages.MOTORCYCLE_NB_CYLINDERS_NULL)

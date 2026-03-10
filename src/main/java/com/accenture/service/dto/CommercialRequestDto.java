@@ -4,12 +4,14 @@ import com.accenture.model.enums.CommercialTypes;
 import com.accenture.model.enums.FuelType;
 import com.accenture.model.enums.Transmission;
 import com.accenture.utils.Messages;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record CommercialRequestDto(
 
+        @Valid
         VehiculeRequestDto vehiculeRequestDto,
 
         @NotNull(message = Messages.COMMERCIAL_NB_PLACES_NULL)

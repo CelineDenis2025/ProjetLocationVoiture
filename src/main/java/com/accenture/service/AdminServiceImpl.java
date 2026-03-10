@@ -36,33 +36,6 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public AdminResponseDto addAdmin(AdminRequestDto adminRequestDto) throws ConnectedUserException {
-
-        long adminCount = adminDao.count();
-
-        // Cas 1 : aucun admin n'existe encore → autoriser n'importe qui
-        if (adminCount == 0) {
-            verify(adminRequestDto);
-            Admin admin = adminMapper.toAdmin(adminRequestDto);
-            admin.setPassword(passwordEncoder.encode(adminRequestDto.connectedUserRequestDto().password()));
-            Admin saved = adminDao.save(admin);
-            return adminMapper.toAdminResponseDto(saved);
-        }
-
-        // Cas 2 : un admin existe → seuls les admins peuvent en créer un autre
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        boolean isAdmin =
-                auth != null &&
-                        auth.isAuthenticated() &&
-                        !(auth instanceof AnonymousAuthenticationToken) &&
-                        auth.getAuthorities().stream()
-                                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-
-        if (!isAdmin) {
-            throw new ConnectedUserException(messages.getMessage(Messages.CREATION_ADMIN));
-        }
-
-        // Cas 3 : admin authentifié → autorisé
         verify(adminRequestDto);
         Admin admin = adminMapper.toAdmin(adminRequestDto);
         admin.setPassword(passwordEncoder.encode(adminRequestDto.connectedUserRequestDto().password()));

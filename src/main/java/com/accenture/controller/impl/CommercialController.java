@@ -4,6 +4,7 @@ import com.accenture.controller.CommercialApi;
 import com.accenture.service.CommercialService;
 import com.accenture.service.dto.CommercialRequestDto;
 import com.accenture.service.dto.CommercialResponsedto;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class CommercialController implements CommercialApi {
     private final CommercialService commercialService;
 
     @Override
-    public ResponseEntity<Void> addCommercial(CommercialRequestDto commercialRequestDto) {
+    public ResponseEntity<Void> addCommercial(@Valid CommercialRequestDto commercialRequestDto) {
         CommercialResponsedto commercialResponseDto = commercialService.addCommercial(commercialRequestDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -41,7 +42,7 @@ public class CommercialController implements CommercialApi {
     }
 
     @Override
-    public ResponseEntity<CommercialResponsedto> patchCommercial(int idCommercial, CommercialRequestDto commercialRequestDto) {
+    public ResponseEntity<CommercialResponsedto> patchCommercial(int idCommercial, @Valid CommercialRequestDto commercialRequestDto) {
         CommercialResponsedto commercialResponsedto = commercialService.partiallyUpdateCommercial(idCommercial, commercialRequestDto);
         return ResponseEntity.ok(commercialResponsedto);
     }

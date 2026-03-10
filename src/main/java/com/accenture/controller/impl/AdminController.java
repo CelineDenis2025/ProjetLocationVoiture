@@ -4,6 +4,7 @@ import com.accenture.controller.AdminApi;
 import com.accenture.service.AdminService;
 import com.accenture.service.dto.AdminRequestDto;
 import com.accenture.service.dto.AdminResponseDto;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class AdminController implements AdminApi {
     private final AdminService adminService;
 
     @Override
-    public ResponseEntity<Void> addAdmin(AdminRequestDto adminRequestDto) {
+    public ResponseEntity<Void> addAdmin(@Valid AdminRequestDto adminRequestDto) {
         AdminResponseDto adminResponseDto = adminService.addAdmin(adminRequestDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -39,7 +40,7 @@ public class AdminController implements AdminApi {
 
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public ResponseEntity<AdminResponseDto> patchAdmin(int idAdmin, AdminRequestDto adminRequestDto) {
+    public ResponseEntity<AdminResponseDto> patchAdmin(int idAdmin, @Valid AdminRequestDto adminRequestDto) {
         AdminResponseDto adminResponseDto = adminService.partiallyUpdateAdmin(idAdmin, adminRequestDto);
         return ResponseEntity.ok(adminResponseDto);
     }

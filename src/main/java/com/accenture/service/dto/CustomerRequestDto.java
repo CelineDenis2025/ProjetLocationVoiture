@@ -3,6 +3,7 @@ package com.accenture.service.dto;
 import com.accenture.model.enums.Licenses;
 import com.accenture.model.enums.Role;
 import com.accenture.utils.Messages;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,6 +14,7 @@ import java.util.List;
 
 public record CustomerRequestDto(
 
+        @Valid
         ConnectedUserRequestDto connectedUserRequestDto,
 
         @NotBlank(message = Messages.CUSTOMER_STREET_NULL)

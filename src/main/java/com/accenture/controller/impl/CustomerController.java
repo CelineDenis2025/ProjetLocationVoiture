@@ -4,6 +4,7 @@ import com.accenture.controller.CustomerApi;
 import com.accenture.service.CustomerService;
 import com.accenture.service.dto.CustomerRequestDto;
 import com.accenture.service.dto.CustomerResponseDto;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class CustomerController implements CustomerApi {
     private final CustomerService customerService;
 
     @Override
-    public ResponseEntity<Void> addCustomer(CustomerRequestDto customerRequestDto) {
+    public ResponseEntity<Void> addCustomer(@Valid CustomerRequestDto customerRequestDto) {
         CustomerResponseDto customerResponseDto = customerService.addCustomer(customerRequestDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -38,7 +39,7 @@ public class CustomerController implements CustomerApi {
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @Override
-    public ResponseEntity<CustomerResponseDto> patchCustomer(int idCustomer, CustomerRequestDto customerRequestDto) {
+    public ResponseEntity<CustomerResponseDto> patchCustomer(int idCustomer, @Valid CustomerRequestDto customerRequestDto) {
         CustomerResponseDto customerResponseDto = customerService.partiallyUpdateCustomer(idCustomer, customerRequestDto);
         return  ResponseEntity.ok(customerResponseDto);
     }

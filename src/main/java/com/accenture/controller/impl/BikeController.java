@@ -4,6 +4,7 @@ import com.accenture.controller.BikeApi;
 import com.accenture.service.BikeService;
 import com.accenture.service.dto.BikeRequestDto;
 import com.accenture.service.dto.BikeResponseDto;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class BikeController implements BikeApi {
 
 
     @Override
-    public ResponseEntity<Void> addBike(BikeRequestDto bikeRequestDto) {
+    public ResponseEntity<Void> addBike(@Valid BikeRequestDto bikeRequestDto) {
         BikeResponseDto bikeResponseDto = bikeService.addBike(bikeRequestDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -42,7 +43,7 @@ public class BikeController implements BikeApi {
     }
 
     @Override
-    public ResponseEntity<BikeResponseDto> patchBike(int idBike, BikeRequestDto bikeRequestDto) {
+    public ResponseEntity<BikeResponseDto> patchBike(int idBike, @Valid BikeRequestDto bikeRequestDto) {
         BikeResponseDto bikeResponseDto = bikeService.partiallyUpdateBike(idBike, bikeRequestDto);
         return ResponseEntity.ok(bikeResponseDto);
     }

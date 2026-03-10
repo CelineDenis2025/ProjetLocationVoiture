@@ -4,6 +4,7 @@ import com.accenture.controller.MotorcycleApi;
 import com.accenture.service.MotorcycleService;
 import com.accenture.service.dto.MotorcycleRequestDto;
 import com.accenture.service.dto.MotorcycleResponseDto;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class MotorcycleController implements MotorcycleApi {
     private final MotorcycleService motorcycleService;
 
     @Override
-    public ResponseEntity<Void> addMotorcycle(MotorcycleRequestDto motorcycleRequestDto) {
+    public ResponseEntity<Void> addMotorcycle(@Valid MotorcycleRequestDto motorcycleRequestDto) {
         MotorcycleResponseDto motorcycleResponseDto = motorcycleService.addMotorcycle(motorcycleRequestDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -41,7 +42,7 @@ public class MotorcycleController implements MotorcycleApi {
     }
 
     @Override
-    public ResponseEntity<MotorcycleResponseDto> patchMotorcycle(int idMotorcycle, MotorcycleRequestDto motorcycleRequestDto) {
+    public ResponseEntity<MotorcycleResponseDto> patchMotorcycle(int idMotorcycle, @Valid MotorcycleRequestDto motorcycleRequestDto) {
         MotorcycleResponseDto motorcycleResponseDto = motorcycleService.partiallyUpdateMotorcycle(idMotorcycle, motorcycleRequestDto);
         return ResponseEntity.ok(motorcycleResponseDto);
     }
